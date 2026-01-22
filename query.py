@@ -16,3 +16,10 @@ The flow for the user is:
 To summarize: the data is uploaded once, using the admin program; after it’s been uploaded, it can be
 queried repeatedly.
 '''
+# Parsing system should be independent of the datastore system
+
+
+## Help Command Function
+
+# The datastore operations: create wrapper functions for the various operations 
+# you’ll need to perform (load data, query)
