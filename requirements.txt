@@ -1,1 +1,2 @@
 pyparse
+firebase-admin
