@@ -1,0 +1,1818 @@
+[
+ {
+   "Country": "Afghanistan ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 31056997,
+   "Area": 647500,
+   "GDP": 700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Albania ",
+   "Region": "EASTERN EUROPE",
+   "Population": 3581655,
+   "Area": 28748,
+   "GDP": 4500,
+   "Coastline": 1.26
+ },
+ {
+   "Country": "Algeria ",
+   "Region": "NORTHERN AFRICA",
+   "Population": 32930091,
+   "Area": 2381740,
+   "GDP": 6000,
+   "Coastline": 0.04
+ },
+ {
+   "Country": "American Samoa ",
+   "Region": "OCEANIA",
+   "Population": 57794,
+   "Area": 199,
+   "GDP": 8000,
+   "Coastline": 58.29
+ },
+ {
+   "Country": "Andorra ",
+   "Region": "WESTERN EUROPE",
+   "Population": 71201,
+   "Area": 468,
+   "GDP": 19000,
+   "Coastline": 0
+ },
+ {
+   "Country": "Angola ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 12127071,
+   "Area": 1246700,
+   "GDP": 1900,
+   "Coastline": 0.13
+ },
+ {
+   "Country": "Anguilla ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 13477,
+   "Area": 102,
+   "GDP": 8600,
+   "Coastline": 59.8
+ },
+ {
+   "Country": "Antigua & Barbuda ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 69108,
+   "Area": 443,
+   "GDP": 11000,
+   "Coastline": 34.54
+ },
+ {
+   "Country": "Argentina ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 39921833,
+   "Area": 2766890,
+   "GDP": 11200,
+   "Coastline": 0.18
+ },
+ {
+   "Country": "Armenia ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 2976372,
+   "Area": 29800,
+   "GDP": 3500,
+   "Coastline": 0
+ },
+ {
+   "Country": "Aruba ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 71891,
+   "Area": 193,
+   "GDP": 28000,
+   "Coastline": 35.49
+ },
+ {
+   "Country": "Australia ",
+   "Region": "OCEANIA",
+   "Population": 20264082,
+   "Area": 7686850,
+   "GDP": 29000,
+   "Coastline": 0.34
+ },
+ {
+   "Country": "Austria ",
+   "Region": "WESTERN EUROPE",
+   "Population": 8192880,
+   "Area": 83870,
+   "GDP": 30000,
+   "Coastline": 0
+ },
+ {
+   "Country": "Azerbaijan ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 7961619,
+   "Area": 86600,
+   "GDP": 3400,
+   "Coastline": 0
+ },
+ {
+   "Country": "Bahamas, The ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 303770,
+   "Area": 13940,
+   "GDP": 16700,
+   "Coastline": 25.41
+ },
+ {
+   "Country": "Bahrain ",
+   "Region": "NEAR EAST",
+   "Population": 698585,
+   "Area": 665,
+   "GDP": 16900,
+   "Coastline": 24.21
+ },
+ {
+   "Country": "Bangladesh ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 147365352,
+   "Area": 144000,
+   "GDP": 1900,
+   "Coastline": 0.4
+ },
+ {
+   "Country": "Barbados ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 279912,
+   "Area": 431,
+   "GDP": 15700,
+   "Coastline": 22.51
+ },
+ {
+   "Country": "Belarus ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 10293011,
+   "Area": 207600,
+   "GDP": 6100,
+   "Coastline": 0
+ },
+ {
+   "Country": "Belgium ",
+   "Region": "WESTERN EUROPE",
+   "Population": 10379067,
+   "Area": 30528,
+   "GDP": 29100,
+   "Coastline": 0.22
+ },
+ {
+   "Country": "Belize ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 287730,
+   "Area": 22966,
+   "GDP": 4900,
+   "Coastline": 1.68
+ },
+ {
+   "Country": "Benin ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 7862944,
+   "Area": 112620,
+   "GDP": 1100,
+   "Coastline": 0.11
+ },
+ {
+   "Country": "Bermuda ",
+   "Region": "NORTHERN AMERICA",
+   "Population": 65773,
+   "Area": 53,
+   "GDP": 36000,
+   "Coastline": 194.34
+ },
+ {
+   "Country": "Bhutan ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 2279723,
+   "Area": 47000,
+   "GDP": 1300,
+   "Coastline": 0
+ },
+ {
+   "Country": "Bolivia ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 8989046,
+   "Area": 1098580,
+   "GDP": 2400,
+   "Coastline": 0
+ },
+ {
+   "Country": "Bosnia & Herzegovina ",
+   "Region": "EASTERN EUROPE",
+   "Population": 4498976,
+   "Area": 51129,
+   "GDP": 6100,
+   "Coastline": 0.04
+ },
+ {
+   "Country": "Botswana ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 1639833,
+   "Area": 600370,
+   "GDP": 9000,
+   "Coastline": 0
+ },
+ {
+   "Country": "Brazil ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 188078227,
+   "Area": 8511965,
+   "GDP": 7600,
+   "Coastline": 0.09
+ },
+ {
+   "Country": "British Virgin Is. ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 23098,
+   "Area": 153,
+   "GDP": 16000,
+   "Coastline": 52.29
+ },
+ {
+   "Country": "Brunei ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 379444,
+   "Area": 5770,
+   "GDP": 18600,
+   "Coastline": 2.79
+ },
+ {
+   "Country": "Bulgaria ",
+   "Region": "EASTERN EUROPE",
+   "Population": 7385367,
+   "Area": 110910,
+   "GDP": 7600,
+   "Coastline": 0.32
+ },
+ {
+   "Country": "Burkina Faso ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 13902972,
+   "Area": 274200,
+   "GDP": 1100,
+   "Coastline": 0
+ },
+ {
+   "Country": "Burma ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 47382633,
+   "Area": 678500,
+   "GDP": 1800,
+   "Coastline": 0.28
+ },
+ {
+   "Country": "Burundi ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 8090068,
+   "Area": 27830,
+   "GDP": 600,
+   "Coastline": 0
+ },
+ {
+   "Country": "Cambodia ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 13881427,
+   "Area": 181040,
+   "GDP": 1900,
+   "Coastline": 0.24
+ },
+ {
+   "Country": "Cameroon ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 17340702,
+   "Area": 475440,
+   "GDP": 1800,
+   "Coastline": 0.08
+ },
+ {
+   "Country": "Canada ",
+   "Region": "NORTHERN AMERICA",
+   "Population": 33098932,
+   "Area": 9984670,
+   "GDP": 29800,
+   "Coastline": 2.02
+ },
+ {
+   "Country": "Cape Verde ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 420979,
+   "Area": 4033,
+   "GDP": 1400,
+   "Coastline": 23.93
+ },
+ {
+   "Country": "Cayman Islands ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 45436,
+   "Area": 262,
+   "GDP": 35000,
+   "Coastline": 61.07
+ },
+ {
+   "Country": "Central African Rep. ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 4303356,
+   "Area": 622984,
+   "GDP": 1100,
+   "Coastline": 0
+ },
+ {
+   "Country": "Chad ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 9944201,
+   "Area": 1284000,
+   "GDP": 1200,
+   "Coastline": 0
+ },
+ {
+   "Country": "Chile ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 16134219,
+   "Area": 756950,
+   "GDP": 9900,
+   "Coastline": 0.85
+ },
+ {
+   "Country": "China ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 1313973713,
+   "Area": 9596960,
+   "GDP": 5000,
+   "Coastline": 0.15
+ },
+ {
+   "Country": "Colombia ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 43593035,
+   "Area": 1138910,
+   "GDP": 6300,
+   "Coastline": 0.28
+ },
+ {
+   "Country": "Comoros ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 690948,
+   "Area": 2170,
+   "GDP": 700,
+   "Coastline": 15.67
+ },
+ {
+   "Country": "Congo, Dem. Rep. ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 62660551,
+   "Area": 2345410,
+   "GDP": 700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Congo, Repub. of the ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 3702314,
+   "Area": 342000,
+   "GDP": 700,
+   "Coastline": 0.05
+ },
+ {
+   "Country": "Cook Islands ",
+   "Region": "OCEANIA",
+   "Population": 21388,
+   "Area": 240,
+   "GDP": 5000,
+   "Coastline": 50
+ },
+ {
+   "Country": "Costa Rica ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 4075261,
+   "Area": 51100,
+   "GDP": 9100,
+   "Coastline": 2.52
+ },
+ {
+   "Country": "Cote d'Ivoire ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 17654843,
+   "Area": 322460,
+   "GDP": 1400,
+   "Coastline": 0.16
+ },
+ {
+   "Country": "Croatia ",
+   "Region": "EASTERN EUROPE",
+   "Population": 4494749,
+   "Area": 56542,
+   "GDP": 10600,
+   "Coastline": 10.32
+ },
+ {
+   "Country": "Cuba ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 11382820,
+   "Area": 110860,
+   "GDP": 2900,
+   "Coastline": 3.37
+ },
+ {
+   "Country": "Cyprus ",
+   "Region": "NEAR EAST",
+   "Population": 784301,
+   "Area": 9250,
+   "GDP": 19200,
+   "Coastline": 7.01
+ },
+ {
+   "Country": "Czech Republic ",
+   "Region": "EASTERN EUROPE",
+   "Population": 10235455,
+   "Area": 78866,
+   "GDP": 15700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Denmark ",
+   "Region": "WESTERN EUROPE",
+   "Population": 5450661,
+   "Area": 43094,
+   "GDP": 31100,
+   "Coastline": 16.97
+ },
+ {
+   "Country": "Djibouti ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 486530,
+   "Area": 23000,
+   "GDP": 1300,
+   "Coastline": 1.37
+ },
+ {
+   "Country": "Dominica ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 68910,
+   "Area": 754,
+   "GDP": 5400,
+   "Coastline": 19.63
+ },
+ {
+   "Country": "Dominican Republic ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 9183984,
+   "Area": 48730,
+   "GDP": 6000,
+   "Coastline": 2.64
+ },
+ {
+   "Country": "East Timor ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 1062777,
+   "Area": 15007,
+   "GDP": 500,
+   "Coastline": 4.7
+ },
+ {
+   "Country": "Ecuador ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 13547510,
+   "Area": 283560,
+   "GDP": 3300,
+   "Coastline": 0.79
+ },
+ {
+   "Country": "Egypt ",
+   "Region": "NORTHERN AFRICA",
+   "Population": 78887007,
+   "Area": 1001450,
+   "GDP": 4000,
+   "Coastline": 0.24
+ },
+ {
+   "Country": "El Salvador ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 6822378,
+   "Area": 21040,
+   "GDP": 4800,
+   "Coastline": 1.46
+ },
+ {
+   "Country": "Equatorial Guinea ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 540109,
+   "Area": 28051,
+   "GDP": 2700,
+   "Coastline": 1.06
+ },
+ {
+   "Country": "Eritrea ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 4786994,
+   "Area": 121320,
+   "GDP": 700,
+   "Coastline": 1.84
+ },
+ {
+   "Country": "Estonia ",
+   "Region": "BALTICS",
+   "Population": 1324333,
+   "Area": 45226,
+   "GDP": 12300,
+   "Coastline": 8.39
+ },
+ {
+   "Country": "Ethiopia ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 74777981,
+   "Area": 1127127,
+   "GDP": 700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Faroe Islands ",
+   "Region": "WESTERN EUROPE",
+   "Population": 47246,
+   "Area": 1399,
+   "GDP": 22000,
+   "Coastline": 79.84
+ },
+ {
+   "Country": "Fiji ",
+   "Region": "OCEANIA",
+   "Population": 905949,
+   "Area": 18270,
+   "GDP": 5800,
+   "Coastline": 6.18
+ },
+ {
+   "Country": "Finland ",
+   "Region": "WESTERN EUROPE",
+   "Population": 5231372,
+   "Area": 338145,
+   "GDP": 27400,
+   "Coastline": 0.37
+ },
+ {
+   "Country": "France ",
+   "Region": "WESTERN EUROPE",
+   "Population": 60876136,
+   "Area": 547030,
+   "GDP": 27600,
+   "Coastline": 0.63
+ },
+ {
+   "Country": "French Guiana ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 199509,
+   "Area": 91000,
+   "GDP": 8300,
+   "Coastline": 0.42
+ },
+ {
+   "Country": "French Polynesia ",
+   "Region": "OCEANIA",
+   "Population": 274578,
+   "Area": 4167,
+   "GDP": 17500,
+   "Coastline": 60.6
+ },
+ {
+   "Country": "Gabon ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 1424906,
+   "Area": 267667,
+   "GDP": 5500,
+   "Coastline": 0.33
+ },
+ {
+   "Country": "Gambia, The ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 1641564,
+   "Area": 11300,
+   "GDP": 1700,
+   "Coastline": 0.71
+ },
+ {
+   "Country": "Gaza Strip ",
+   "Region": "NEAR EAST",
+   "Population": 1428757,
+   "Area": 360,
+   "GDP": 600,
+   "Coastline": 11.11
+ },
+ {
+   "Country": "Georgia ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 4661473,
+   "Area": 69700,
+   "GDP": 2500,
+   "Coastline": 0.44
+ },
+ {
+   "Country": "Germany ",
+   "Region": "WESTERN EUROPE",
+   "Population": 82422299,
+   "Area": 357021,
+   "GDP": 27600,
+   "Coastline": 0.67
+ },
+ {
+   "Country": "Ghana ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 22409572,
+   "Area": 239460,
+   "GDP": 2200,
+   "Coastline": 0.23
+ },
+ {
+   "Country": "Gibraltar ",
+   "Region": "WESTERN EUROPE",
+   "Population": 27928,
+   "Area": 7,
+   "GDP": 17500,
+   "Coastline": 171.43
+ },
+ {
+   "Country": "Greece ",
+   "Region": "WESTERN EUROPE",
+   "Population": 10688058,
+   "Area": 131940,
+   "GDP": 20000,
+   "Coastline": 10.37
+ },
+ {
+   "Country": "Greenland ",
+   "Region": "NORTHERN AMERICA",
+   "Population": 56361,
+   "Area": 2166086,
+   "GDP": 20000,
+   "Coastline": 2.04
+ },
+ {
+   "Country": "Grenada ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 89703,
+   "Area": 344,
+   "GDP": 5000,
+   "Coastline": 35.17
+ },
+ {
+   "Country": "Guadeloupe ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 452776,
+   "Area": 1780,
+   "GDP": 8000,
+   "Coastline": 17.19
+ },
+ {
+   "Country": "Guam ",
+   "Region": "OCEANIA",
+   "Population": 171019,
+   "Area": 541,
+   "GDP": 21000,
+   "Coastline": 23.2
+ },
+ {
+   "Country": "Guatemala ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 12293545,
+   "Area": 108890,
+   "GDP": 4100,
+   "Coastline": 0.37
+ },
+ {
+   "Country": "Guernsey ",
+   "Region": "WESTERN EUROPE",
+   "Population": 65409,
+   "Area": 78,
+   "GDP": 20000,
+   "Coastline": 64.1
+ },
+ {
+   "Country": "Guinea ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 9690222,
+   "Area": 245857,
+   "GDP": 2100,
+   "Coastline": 0.13
+ },
+ {
+   "Country": "Guinea-Bissau ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 1442029,
+   "Area": 36120,
+   "GDP": 800,
+   "Coastline": 0.97
+ },
+ {
+   "Country": "Guyana ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 767245,
+   "Area": 214970,
+   "GDP": 4000,
+   "Coastline": 0.21
+ },
+ {
+   "Country": "Haiti ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 8308504,
+   "Area": 27750,
+   "GDP": 1600,
+   "Coastline": 6.38
+ },
+ {
+   "Country": "Honduras ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 7326496,
+   "Area": 112090,
+   "GDP": 2600,
+   "Coastline": 0.73
+ },
+ {
+   "Country": "Hong Kong ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 6940432,
+   "Area": 1092,
+   "GDP": 28800,
+   "Coastline": 67.12
+ },
+ {
+   "Country": "Hungary ",
+   "Region": "EASTERN EUROPE",
+   "Population": 9981334,
+   "Area": 93030,
+   "GDP": 13900,
+   "Coastline": 0
+ },
+ {
+   "Country": "Iceland ",
+   "Region": "WESTERN EUROPE",
+   "Population": 299388,
+   "Area": 103000,
+   "GDP": 30900,
+   "Coastline": 4.83
+ },
+ {
+   "Country": "India ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 1095351995,
+   "Area": 3287590,
+   "GDP": 2900,
+   "Coastline": 0.21
+ },
+ {
+   "Country": "Indonesia ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 245452739,
+   "Area": 1919440,
+   "GDP": 3200,
+   "Coastline": 2.85
+ },
+ {
+   "Country": "Iran ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 68688433,
+   "Area": 1648000,
+   "GDP": 7000,
+   "Coastline": 0.15
+ },
+ {
+   "Country": "Iraq ",
+   "Region": "NEAR EAST",
+   "Population": 26783383,
+   "Area": 437072,
+   "GDP": 1500,
+   "Coastline": 0.01
+ },
+ {
+   "Country": "Ireland ",
+   "Region": "WESTERN EUROPE",
+   "Population": 4062235,
+   "Area": 70280,
+   "GDP": 29600,
+   "Coastline": 2.06
+ },
+ {
+   "Country": "Isle of Man ",
+   "Region": "WESTERN EUROPE",
+   "Population": 75441,
+   "Area": 572,
+   "GDP": 21000,
+   "Coastline": 27.97
+ },
+ {
+   "Country": "Israel ",
+   "Region": "NEAR EAST",
+   "Population": 6352117,
+   "Area": 20770,
+   "GDP": 19800,
+   "Coastline": 1.31
+ },
+ {
+   "Country": "Italy ",
+   "Region": "WESTERN EUROPE",
+   "Population": 58133509,
+   "Area": 301230,
+   "GDP": 26700,
+   "Coastline": 2.52
+ },
+ {
+   "Country": "Jamaica ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 2758124,
+   "Area": 10991,
+   "GDP": 3900,
+   "Coastline": 9.3
+ },
+ {
+   "Country": "Japan ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 127463611,
+   "Area": 377835,
+   "GDP": 28200,
+   "Coastline": 7.87
+ },
+ {
+   "Country": "Jersey ",
+   "Region": "WESTERN EUROPE",
+   "Population": 91084,
+   "Area": 116,
+   "GDP": 24800,
+   "Coastline": 60.34
+ },
+ {
+   "Country": "Jordan ",
+   "Region": "NEAR EAST",
+   "Population": 5906760,
+   "Area": 92300,
+   "GDP": 4300,
+   "Coastline": 0.03
+ },
+ {
+   "Country": "Kazakhstan ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 15233244,
+   "Area": 2717300,
+   "GDP": 6300,
+   "Coastline": 0
+ },
+ {
+   "Country": "Kenya ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 34707817,
+   "Area": 582650,
+   "GDP": 1000,
+   "Coastline": 0.09
+ },
+ {
+   "Country": "Kiribati ",
+   "Region": "OCEANIA",
+   "Population": 105432,
+   "Area": 811,
+   "GDP": 800,
+   "Coastline": 140.94
+ },
+ {
+   "Country": "Korea, North ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 23113019,
+   "Area": 120540,
+   "GDP": 1300,
+   "Coastline": 2.07
+ },
+ {
+   "Country": "Korea, South ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 48846823,
+   "Area": 98480,
+   "GDP": 17800,
+   "Coastline": 2.45
+ },
+ {
+   "Country": "Kuwait ",
+   "Region": "NEAR EAST",
+   "Population": 2418393,
+   "Area": 17820,
+   "GDP": 19000,
+   "Coastline": 2.8
+ },
+ {
+   "Country": "Kyrgyzstan ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 5213898,
+   "Area": 198500,
+   "GDP": 1600,
+   "Coastline": 0
+ },
+ {
+   "Country": "Laos ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 6368481,
+   "Area": 236800,
+   "GDP": 1700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Latvia ",
+   "Region": "BALTICS",
+   "Population": 2274735,
+   "Area": 64589,
+   "GDP": 10200,
+   "Coastline": 0.82
+ },
+ {
+   "Country": "Lebanon ",
+   "Region": "NEAR EAST",
+   "Population": 3874050,
+   "Area": 10400,
+   "GDP": 4800,
+   "Coastline": 2.16
+ },
+ {
+   "Country": "Lesotho ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 2022331,
+   "Area": 30355,
+   "GDP": 3000,
+   "Coastline": 0
+ },
+ {
+   "Country": "Liberia ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 3042004,
+   "Area": 111370,
+   "GDP": 1000,
+   "Coastline": 0.52
+ },
+ {
+   "Country": "Libya ",
+   "Region": "NORTHERN AFRICA",
+   "Population": 5900754,
+   "Area": 1759540,
+   "GDP": 6400,
+   "Coastline": 0.1
+ },
+ {
+   "Country": "Liechtenstein ",
+   "Region": "WESTERN EUROPE",
+   "Population": 33987,
+   "Area": 160,
+   "GDP": 25000,
+   "Coastline": 0
+ },
+ {
+   "Country": "Lithuania ",
+   "Region": "BALTICS",
+   "Population": 3585906,
+   "Area": 65200,
+   "GDP": 11400,
+   "Coastline": 0.14
+ },
+ {
+   "Country": "Luxembourg ",
+   "Region": "WESTERN EUROPE",
+   "Population": 474413,
+   "Area": 2586,
+   "GDP": 55100,
+   "Coastline": 0
+ },
+ {
+   "Country": "Macau ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 453125,
+   "Area": 28,
+   "GDP": 19400,
+   "Coastline": 146.43
+ },
+ {
+   "Country": "Macedonia ",
+   "Region": "EASTERN EUROPE",
+   "Population": 2050554,
+   "Area": 25333,
+   "GDP": 6700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Madagascar ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 18595469,
+   "Area": 587040,
+   "GDP": 800,
+   "Coastline": 0.82
+ },
+ {
+   "Country": "Malawi ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 13013926,
+   "Area": 118480,
+   "GDP": 600,
+   "Coastline": 0
+ },
+ {
+   "Country": "Malaysia ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 24385858,
+   "Area": 329750,
+   "GDP": 9000,
+   "Coastline": 1.42
+ },
+ {
+   "Country": "Maldives ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 359008,
+   "Area": 300,
+   "GDP": 3900,
+   "Coastline": 214.67
+ },
+ {
+   "Country": "Mali ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 11716829,
+   "Area": 1240000,
+   "GDP": 900,
+   "Coastline": 0
+ },
+ {
+   "Country": "Malta ",
+   "Region": "WESTERN EUROPE",
+   "Population": 400214,
+   "Area": 316,
+   "GDP": 17700,
+   "Coastline": 62.28
+ },
+ {
+   "Country": "Marshall Islands ",
+   "Region": "OCEANIA",
+   "Population": 60422,
+   "Area": 11854,
+   "GDP": 1600,
+   "Coastline": 3.12
+ },
+ {
+   "Country": "Martinique ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 436131,
+   "Area": 1100,
+   "GDP": 14400,
+   "Coastline": 31.82
+ },
+ {
+   "Country": "Mauritania ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 3177388,
+   "Area": 1030700,
+   "GDP": 1800,
+   "Coastline": 0.07
+ },
+ {
+   "Country": "Mauritius ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 1240827,
+   "Area": 2040,
+   "GDP": 11400,
+   "Coastline": 8.68
+ },
+ {
+   "Country": "Mayotte ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 201234,
+   "Area": 374,
+   "GDP": 2600,
+   "Coastline": 49.52
+ },
+ {
+   "Country": "Mexico ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 107449525,
+   "Area": 1972550,
+   "GDP": 9000,
+   "Coastline": 0.47
+ },
+ {
+   "Country": "Micronesia, Fed. St. ",
+   "Region": "OCEANIA",
+   "Population": 108004,
+   "Area": 702,
+   "GDP": 2000,
+   "Coastline": 870.66
+ },
+ {
+   "Country": "Moldova ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 4466706,
+   "Area": 33843,
+   "GDP": 1800,
+   "Coastline": 0
+ },
+ {
+   "Country": "Monaco ",
+   "Region": "WESTERN EUROPE",
+   "Population": 32543,
+   "Area": 2,
+   "GDP": 27000,
+   "Coastline": 205
+ },
+ {
+   "Country": "Mongolia ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 2832224,
+   "Area": 1564116,
+   "GDP": 1800,
+   "Coastline": 0
+ },
+ {
+   "Country": "Montserrat ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 9439,
+   "Area": 102,
+   "GDP": 3400,
+   "Coastline": 39.22
+ },
+ {
+   "Country": "Morocco ",
+   "Region": "NORTHERN AFRICA",
+   "Population": 33241259,
+   "Area": 446550,
+   "GDP": 4000,
+   "Coastline": 0.41
+ },
+ {
+   "Country": "Mozambique ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 19686505,
+   "Area": 801590,
+   "GDP": 1200,
+   "Coastline": 0.31
+ },
+ {
+   "Country": "Namibia ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 2044147,
+   "Area": 825418,
+   "GDP": 7200,
+   "Coastline": 0.19
+ },
+ {
+   "Country": "Nauru ",
+   "Region": "OCEANIA",
+   "Population": 13287,
+   "Area": 21,
+   "GDP": 5000,
+   "Coastline": 142.86
+ },
+ {
+   "Country": "Nepal ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 28287147,
+   "Area": 147181,
+   "GDP": 1400,
+   "Coastline": 0
+ },
+ {
+   "Country": "Netherlands ",
+   "Region": "WESTERN EUROPE",
+   "Population": 16491461,
+   "Area": 41526,
+   "GDP": 28600,
+   "Coastline": 1.09
+ },
+ {
+   "Country": "Netherlands Antilles ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 221736,
+   "Area": 960,
+   "GDP": 11400,
+   "Coastline": 37.92
+ },
+ {
+   "Country": "New Caledonia ",
+   "Region": "OCEANIA",
+   "Population": 219246,
+   "Area": 19060,
+   "GDP": 15000,
+   "Coastline": 11.83
+ },
+ {
+   "Country": "New Zealand ",
+   "Region": "OCEANIA",
+   "Population": 4076140,
+   "Area": 268680,
+   "GDP": 21600,
+   "Coastline": 5.63
+ },
+ {
+   "Country": "Nicaragua ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 5570129,
+   "Area": 129494,
+   "GDP": 2300,
+   "Coastline": 0.7
+ },
+ {
+   "Country": "Niger ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 12525094,
+   "Area": 1267000,
+   "GDP": 800,
+   "Coastline": 0
+ },
+ {
+   "Country": "Nigeria ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 131859731,
+   "Area": 923768,
+   "GDP": 900,
+   "Coastline": 0.09
+ },
+ {
+   "Country": "N. Mariana Islands ",
+   "Region": "OCEANIA",
+   "Population": 82459,
+   "Area": 477,
+   "GDP": 12500,
+   "Coastline": 310.69
+ },
+ {
+   "Country": "Norway ",
+   "Region": "WESTERN EUROPE",
+   "Population": 4610820,
+   "Area": 323802,
+   "GDP": 37800,
+   "Coastline": 7.77
+ },
+ {
+   "Country": "Oman ",
+   "Region": "NEAR EAST",
+   "Population": 3102229,
+   "Area": 212460,
+   "GDP": 13100,
+   "Coastline": 0.98
+ },
+ {
+   "Country": "Pakistan ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 165803560,
+   "Area": 803940,
+   "GDP": 2100,
+   "Coastline": 0.13
+ },
+ {
+   "Country": "Palau ",
+   "Region": "OCEANIA",
+   "Population": 20579,
+   "Area": 458,
+   "GDP": 9000,
+   "Coastline": 331.66
+ },
+ {
+   "Country": "Panama ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 3191319,
+   "Area": 78200,
+   "GDP": 6300,
+   "Coastline": 3.18
+ },
+ {
+   "Country": "Papua New Guinea ",
+   "Region": "OCEANIA",
+   "Population": 5670544,
+   "Area": 462840,
+   "GDP": 2200,
+   "Coastline": 1.11
+ },
+ {
+   "Country": "Paraguay ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 6506464,
+   "Area": 406750,
+   "GDP": 4700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Peru ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 28302603,
+   "Area": 1285220,
+   "GDP": 5100,
+   "Coastline": 0.19
+ },
+ {
+   "Country": "Philippines ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 89468677,
+   "Area": 300000,
+   "GDP": 4600,
+   "Coastline": 12.1
+ },
+ {
+   "Country": "Poland ",
+   "Region": "EASTERN EUROPE",
+   "Population": 38536869,
+   "Area": 312685,
+   "GDP": 11100,
+   "Coastline": 0.16
+ },
+ {
+   "Country": "Portugal ",
+   "Region": "WESTERN EUROPE",
+   "Population": 10605870,
+   "Area": 92391,
+   "GDP": 18000,
+   "Coastline": 1.94
+ },
+ {
+   "Country": "Puerto Rico ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 3927188,
+   "Area": 13790,
+   "GDP": 16800,
+   "Coastline": 3.63
+ },
+ {
+   "Country": "Qatar ",
+   "Region": "NEAR EAST",
+   "Population": 885359,
+   "Area": 11437,
+   "GDP": 21500,
+   "Coastline": 4.92
+ },
+ {
+   "Country": "Reunion ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 787584,
+   "Area": 2517,
+   "GDP": 5800,
+   "Coastline": 8.22
+ },
+ {
+   "Country": "Romania ",
+   "Region": "EASTERN EUROPE",
+   "Population": 22303552,
+   "Area": 237500,
+   "GDP": 7000,
+   "Coastline": 0.09
+ },
+ {
+   "Country": "Russia ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 142893540,
+   "Area": 17075200,
+   "GDP": 8900,
+   "Coastline": 0.22
+ },
+ {
+   "Country": "Rwanda ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 8648248,
+   "Area": 26338,
+   "GDP": 1300,
+   "Coastline": 0
+ },
+ {
+   "Country": "Saint Helena ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 7502,
+   "Area": 413,
+   "GDP": 2500,
+   "Coastline": 14.53
+ },
+ {
+   "Country": "Saint Kitts & Nevis ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 39129,
+   "Area": 261,
+   "GDP": 8800,
+   "Coastline": 51.72
+ },
+ {
+   "Country": "Saint Lucia ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 168458,
+   "Area": 616,
+   "GDP": 5400,
+   "Coastline": 25.65
+ },
+ {
+   "Country": "St Pierre & Miquelon ",
+   "Region": "NORTHERN AMERICA",
+   "Population": 7026,
+   "Area": 242,
+   "GDP": 6900,
+   "Coastline": 49.59
+ },
+ {
+   "Country": "Saint Vincent and the Grenadines ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 117848,
+   "Area": 389,
+   "GDP": 2900,
+   "Coastline": 21.59
+ },
+ {
+   "Country": "Samoa ",
+   "Region": "OCEANIA",
+   "Population": 176908,
+   "Area": 2944,
+   "GDP": 5600,
+   "Coastline": 13.69
+ },
+ {
+   "Country": "San Marino ",
+   "Region": "WESTERN EUROPE",
+   "Population": 29251,
+   "Area": 61,
+   "GDP": 34600,
+   "Coastline": 0
+ },
+ {
+   "Country": "Sao Tome & Principe ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 193413,
+   "Area": 1001,
+   "GDP": 1200,
+   "Coastline": 20.88
+ },
+ {
+   "Country": "Saudi Arabia ",
+   "Region": "NEAR EAST",
+   "Population": 27019731,
+   "Area": 1960582,
+   "GDP": 11800,
+   "Coastline": 0.13
+ },
+ {
+   "Country": "Senegal ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 11987121,
+   "Area": 196190,
+   "GDP": 1600,
+   "Coastline": 0.27
+ },
+ {
+   "Country": "Serbia ",
+   "Region": "EASTERN EUROPE",
+   "Population": 9396411,
+   "Area": 88361,
+   "GDP": 2200,
+   "Coastline": 0
+ },
+ {
+   "Country": "Seychelles ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 81541,
+   "Area": 455,
+   "GDP": 7800,
+   "Coastline": 107.91
+ },
+ {
+   "Country": "Sierra Leone ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 6005250,
+   "Area": 71740,
+   "GDP": 500,
+   "Coastline": 0.56
+ },
+ {
+   "Country": "Singapore ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 4492150,
+   "Area": 693,
+   "GDP": 23700,
+   "Coastline": 27.85
+ },
+ {
+   "Country": "Slovakia ",
+   "Region": "EASTERN EUROPE",
+   "Population": 5439448,
+   "Area": 48845,
+   "GDP": 13300,
+   "Coastline": 0
+ },
+ {
+   "Country": "Slovenia ",
+   "Region": "EASTERN EUROPE",
+   "Population": 2010347,
+   "Area": 20273,
+   "GDP": 19000,
+   "Coastline": 0.23
+ },
+ {
+   "Country": "Solomon Islands ",
+   "Region": "OCEANIA",
+   "Population": 552438,
+   "Area": 28450,
+   "GDP": 1700,
+   "Coastline": 18.67
+ },
+ {
+   "Country": "Somalia ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 8863338,
+   "Area": 637657,
+   "GDP": 500,
+   "Coastline": 0.47
+ },
+ {
+   "Country": "South Africa ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 44187637,
+   "Area": 1219912,
+   "GDP": 10700,
+   "Coastline": 0.23
+ },
+ {
+   "Country": "Spain ",
+   "Region": "WESTERN EUROPE",
+   "Population": 40397842,
+   "Area": 504782,
+   "GDP": 22000,
+   "Coastline": 0.98
+ },
+ {
+   "Country": "Sri Lanka ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 20222240,
+   "Area": 65610,
+   "GDP": 3700,
+   "Coastline": 2.04
+ },
+ {
+   "Country": "Sudan ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 41236378,
+   "Area": 2505810,
+   "GDP": 1900,
+   "Coastline": 0.03
+ },
+ {
+   "Country": "Suriname ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 439117,
+   "Area": 163270,
+   "GDP": 4000,
+   "Coastline": 0.24
+ },
+ {
+   "Country": "Swaziland ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 1136334,
+   "Area": 17363,
+   "GDP": 4900,
+   "Coastline": 0
+ },
+ {
+   "Country": "Sweden ",
+   "Region": "WESTERN EUROPE",
+   "Population": 9016596,
+   "Area": 449964,
+   "GDP": 26800,
+   "Coastline": 0.72
+ },
+ {
+   "Country": "Switzerland ",
+   "Region": "WESTERN EUROPE",
+   "Population": 7523934,
+   "Area": 41290,
+   "GDP": 32700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Syria ",
+   "Region": "NEAR EAST",
+   "Population": 18881361,
+   "Area": 185180,
+   "GDP": 3300,
+   "Coastline": 0.1
+ },
+ {
+   "Country": "Taiwan ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 23036087,
+   "Area": 35980,
+   "GDP": 23400,
+   "Coastline": 4.35
+ },
+ {
+   "Country": "Tajikistan ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 7320815,
+   "Area": 143100,
+   "GDP": 1000,
+   "Coastline": 0
+ },
+ {
+   "Country": "Tanzania ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 37445392,
+   "Area": 945087,
+   "GDP": 600,
+   "Coastline": 0.15
+ },
+ {
+   "Country": "Thailand ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 64631595,
+   "Area": 514000,
+   "GDP": 7400,
+   "Coastline": 0.63
+ },
+ {
+   "Country": "Togo ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 5548702,
+   "Area": 56785,
+   "GDP": 1500,
+   "Coastline": 0.1
+ },
+ {
+   "Country": "Tonga ",
+   "Region": "OCEANIA",
+   "Population": 114689,
+   "Area": 748,
+   "GDP": 2200,
+   "Coastline": 56.02
+ },
+ {
+   "Country": "Trinidad & Tobago ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 1065842,
+   "Area": 5128,
+   "GDP": 9500,
+   "Coastline": 7.06
+ },
+ {
+   "Country": "Tunisia ",
+   "Region": "NORTHERN AFRICA",
+   "Population": 10175014,
+   "Area": 163610,
+   "GDP": 6900,
+   "Coastline": 0.7
+ },
+ {
+   "Country": "Turkey ",
+   "Region": "NEAR EAST",
+   "Population": 70413958,
+   "Area": 780580,
+   "GDP": 6700,
+   "Coastline": 0.92
+ },
+ {
+   "Country": "Turkmenistan ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 5042920,
+   "Area": 488100,
+   "GDP": 5800,
+   "Coastline": 0
+ },
+ {
+   "Country": "Turks & Caicos Is ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 21152,
+   "Area": 430,
+   "GDP": 9600,
+   "Coastline": 90.47
+ },
+ {
+   "Country": "Tuvalu ",
+   "Region": "OCEANIA",
+   "Population": 11810,
+   "Area": 26,
+   "GDP": 1100,
+   "Coastline": 92.31
+ },
+ {
+   "Country": "Uganda ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 28195754,
+   "Area": 236040,
+   "GDP": 1400,
+   "Coastline": 0
+ },
+ {
+   "Country": "Ukraine ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 46710816,
+   "Area": 603700,
+   "GDP": 5400,
+   "Coastline": 0.46
+ },
+ {
+   "Country": "United Arab Emirates ",
+   "Region": "NEAR EAST",
+   "Population": 2602713,
+   "Area": 82880,
+   "GDP": 23200,
+   "Coastline": 1.59
+ },
+ {
+   "Country": "United Kingdom ",
+   "Region": "WESTERN EUROPE",
+   "Population": 60609153,
+   "Area": 244820,
+   "GDP": 27700,
+   "Coastline": 5.08
+ },
+ {
+   "Country": "United States ",
+   "Region": "NORTHERN AMERICA",
+   "Population": 298444215,
+   "Area": 9631420,
+   "GDP": 37800,
+   "Coastline": 0.21
+ },
+ {
+   "Country": "Uruguay ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 3431932,
+   "Area": 176220,
+   "GDP": 12800,
+   "Coastline": 0.37
+ },
+ {
+   "Country": "Uzbekistan ",
+   "Region": "C.W. OF IND. STATES",
+   "Population": 27307134,
+   "Area": 447400,
+   "GDP": 1700,
+   "Coastline": 0
+ },
+ {
+   "Country": "Vanuatu ",
+   "Region": "OCEANIA",
+   "Population": 208869,
+   "Area": 12200,
+   "GDP": 2900,
+   "Coastline": 20.72
+ },
+ {
+   "Country": "Venezuela ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 25730435,
+   "Area": 912050,
+   "GDP": 4800,
+   "Coastline": 0.31
+ },
+ {
+   "Country": "Vietnam ",
+   "Region": "ASIA (EX. NEAR EAST)",
+   "Population": 84402966,
+   "Area": 329560,
+   "GDP": 2500,
+   "Coastline": 1.05
+ },
+ {
+   "Country": "Virgin Islands ",
+   "Region": "LATIN AMER. & CARIB",
+   "Population": 108605,
+   "Area": 1910,
+   "GDP": 17200,
+   "Coastline": 9.84
+ },
+ {
+   "Country": "Wallis and Futuna ",
+   "Region": "OCEANIA",
+   "Population": 16025,
+   "Area": 274,
+   "GDP": 3700,
+   "Coastline": 47.08
+ },
+ {
+   "Country": "West Bank ",
+   "Region": "NEAR EAST",
+   "Population": 2460492,
+   "Area": 5860,
+   "GDP": 800,
+   "Coastline": 0
+ },
+ {
+   "Country": "Western Sahara ",
+   "Region": "NORTHERN AFRICA",
+   "Population": 273008,
+   "Area": 266000,
+   "GDP": null,
+   "Coastline": 0.42
+ },
+ {
+   "Country": "Yemen ",
+   "Region": "NEAR EAST",
+   "Population": 21456188,
+   "Area": 527970,
+   "GDP": 800,
+   "Coastline": 0.36
+ },
+ {
+   "Country": "Zambia ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 11502010,
+   "Area": 752614,
+   "GDP": 800,
+   "Coastline": 0
+ },
+ {
+   "Country": "Zimbabwe ",
+   "Region": "SUB-SAHARAN AFRICA",
+   "Population": 12236805,
+   "Area": 390580,
+   "GDP": 1900,
+   "Coastline": 0
+ }
+]
