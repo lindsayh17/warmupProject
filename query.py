@@ -23,3 +23,14 @@ queried repeatedly.
 
 # The datastore operations: create wrapper functions for the various operations 
 # you’ll need to perform (load data, query)
+
+import pyparsing as pp
+
+# creates tokens and patterns. patterns must be matched if you use it to parse string
+greet = pp.Word(pp.alphas) + "," + pp.Word(pp.alphas) + "!"
+# get user input
+user_greeting = input("!? ")
+# parse the user input
+parsed_greeting = greet.parse_string(user_greeting)
+# print out our parsed list
+print(parsed_greeting)
