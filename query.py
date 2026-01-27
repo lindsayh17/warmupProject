@@ -1,10 +1,8 @@
 # Query Program
 '''
-he second program is the user query program. The example below shows my query program. A user
-can run this program as often as they want, but the query program will only return results if the admin
-program has been run (i.e., if the data has been uploaded).
-Each time the program starts, a new session starts. All requests for information take the form of a query
-in the “query language” of the system.
+the second program is the user query program. The example below shows my query program. A user
+can run this program as often as they want, but the query program will only return results if the admin program has been run (i.e., if the data has been uploaded).
+Each time the program starts, a new session starts. All requests for information take the form of a query in the “query language” of the system.
 Use the PyParsing module for your parser.
 The flow for the user is:
 
@@ -16,11 +14,6 @@ The flow for the user is:
 To summarize: the data is uploaded once, using the admin program; after it’s been uploaded, it can be
 queried repeatedly.
 '''
-# Parsing system should be independent of the datastore system
-
-
-## Help Command Function
-
 import pyparsing as pp
 
 # creates tokens and patterns. patterns must be matched if you use it to parse string
@@ -32,8 +25,23 @@ parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
 
+
 # DO QUERY!!!!
-# should take in all information important from parsed information
+    # should take in all information important from parsed information
+
+# DATASTORE OPERATIONS
+
+# HELP COMMAND FUNCTION
+    # helper to be used for parsing
+
+# PARSER COMPONENT
+while (True):
+    userString = input("!? ")
+    if userString.lower() == "exit":
+        break
+
+print("Program Closed")
+
 
 
 
