@@ -15,7 +15,7 @@ To summarize: the data is uploaded once, using the admin program; after it’s b
 queried repeatedly.
 '''
 import pyparsing as pp
-
+'''
 # creates tokens and patterns. patterns must be matched if you use it to parse string
 greet = pp.Word(pp.alphas) + "," + pp.Word(pp.alphas) + "!"
 # get user input
@@ -24,7 +24,7 @@ user_greeting = input("!? ")
 parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
-
+'''
 # DO QUERY!!!!
     # should take in all information important from parsed information
 
@@ -34,13 +34,14 @@ print(parsed_greeting)
     # helper to be used for parsing
 
 # PARSER COMPONENT
+'''
 while (True):
     userString = input("!? ")
     if userString.lower() == "exit":
         break
 
 print("Program Closed")
-
+'''
 
 
 
@@ -49,15 +50,15 @@ print("Program Closed")
 # you’ll need to perform (load data, query)
 
 ####first query attempt independant
-attribute = pp.CaselessKeyword(pp.alphas)
-operator = pp.one_of("= < > <= >=")
-comparitor = pp.Word(pp.alphanums)
+attribute = pp.Word(pp.alphas)
+operator = pp.one_of("= < > <= >= of")
+comparitor = pp.QuotedString('"')
 
 
 parseString = attribute + operator + comparitor
 # get user input
 user_greeting = input("!? ")
 # parse the user input
-parsed_greeting = greet.parse_string(user_greeting)
+parsed_greeting = parseString.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
