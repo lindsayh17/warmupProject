@@ -4,6 +4,8 @@ The admin program will read data from a JSON file saved locally and will initial
 to a Google Firebase Cloud Datastore (not a Firebase Realtime Database). You’ll run this program one
 time. If you run it a second time, it should delete and recreate the datastore
 '''
+import sys
+
 '''
 Your admin program should take a single command-line argument: the name of the JSON file containing
 the data to load. So for example, I would run my program this way:
@@ -24,8 +26,6 @@ cred = credentials.Certificate('serviceAccountKey.json')
 app = firebase_admin.initialize_app(cred)
 
 db = firestore.client()
-
-json_file = "countries_of_the_world.json"
 
 class Country:
     def __init__(self, country, region, population, gdp, coastline):
@@ -51,8 +51,28 @@ class Country:
                 coastline={self.coastline}\
             )"
 
-countries_ref = db.collection('countries')
-countries_ref.document("Albania").set(
-    Country("Albania", "Europe", 100, 45000, 6.2).to_dict()
-)
+# TODO: should this be a function in the connectionAuthentication/Firebase file
+# TODO: should I have used the to_dict and from_dict
+def populate_firebase(source):
+    try:
+        with open(source, 'r') as f:
+            country_data = json.load(f)
 
+        collection_reference = db.collection("countries")
+        for country in country_data:
+            country_name = country['Country']
+            country.pop('Country')
+            if country['Coastline'] == 0:
+                country.pop('Coastline')
+            collection_reference.document(country_name).set(country)
+    except FileNotFoundError:
+        print("Error: File not found")
+
+# for country_object in country_data:
+#     doc_ref = db.collection(country_data[1]).document(country_object[1])
+#     doc_ref.set(country_object)
+
+if len(sys.argv) == 2:
+    populate_firebase(sys.argv[1])
+else:
+    print("Please provide the file path")
