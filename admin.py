@@ -13,3 +13,46 @@ $ python admin.py restaurant-data.json
 The admin program will then read and parse the JSON file and upload the data to your Firebase
 datastore. If the datastore already contains data, then the existing data will first be deleted.
 '''
+import firebase_admin
+import json
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+# Use a service account.
+cred = credentials.Certificate('serviceAccountKey.json')
+
+app = firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+json_file = "countries_of_the_world.json"
+
+class Country:
+    def __init__(self, country, region, population, gdp, coastline):
+        self.country = country
+        self.region = region
+        self.population = population
+        self.gdp = gdp
+        self.coastline = coastline
+
+    @staticmethod
+    def from_dict(source):
+        return json.loads(source)
+
+    def to_dict(self):
+        return {'Country': self.country, 'Region': self.region, 'Population': self.population, 'GDP': self.gdp, 'Coastline': self.coastline}
+
+    def __repr__(self):
+        return f"Country(\
+                country={self.country}, \
+                region={self.region}, \
+                population={self.population}, \
+                gdp={self.gdp}, \
+                coastline={self.coastline}\
+            )"
+
+countries_ref = db.collection('countries')
+countries_ref.document("Albania").set(
+    Country("Albania", "Europe", 100, 45000, 6.2).to_dict()
+)
+
