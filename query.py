@@ -47,3 +47,17 @@ print("Program Closed")
 
 # The datastore operations: create wrapper functions for the various operations 
 # you’ll need to perform (load data, query)
+
+####first query attempt independant
+attribute = pp.CaselessKeyword(pp.alphas)
+operator = pp.one_of("= < > <= >=")
+comparitor = pp.Word(pp.alphanums)
+
+
+parseString = attribute + operator + comparitor
+# get user input
+user_greeting = input("!? ")
+# parse the user input
+parsed_greeting = greet.parse_string(user_greeting)
+# print out our parsed list
+print(parsed_greeting)
