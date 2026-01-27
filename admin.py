@@ -14,6 +14,7 @@ The admin program will then read and parse the JSON file and upload the data to 
 datastore. If the datastore already contains data, then the existing data will first be deleted.
 '''
 import firebase_admin
+import json
 from firebase_admin import credentials
 from firebase_admin import firestore
 
@@ -23,6 +24,8 @@ cred = credentials.Certificate('serviceAccountKey.json')
 app = firebase_admin.initialize_app(cred)
 
 db = firestore.client()
+
+json_file = "countries_of_the_world.json"
 
 class Country:
     def __init__(self, country, region, population, gdp, coastline):
@@ -34,10 +37,10 @@ class Country:
 
     @staticmethod
     def from_dict(source):
-        # ...
+        return json.loads(source)
 
     def to_dict(self):
-        # ...
+        return {'Country': self.country, 'Region': self.region, 'Population': self.population, 'GDP': self.gdp, 'Coastline': self.coastline}
 
     def __repr__(self):
         return f"Country(\
@@ -48,5 +51,8 @@ class Country:
                 coastline={self.coastline}\
             )"
 
-countries_ref = db.collection("countries")
+countries_ref = db.collection('countries')
+countries_ref.document("Albania").set(
+    Country("Albania", "Europe", 100, 45000, 6.2).to_dict()
+)
 
