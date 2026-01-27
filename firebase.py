@@ -8,3 +8,40 @@ cred = credentials.Certificate('serviceAccountKey.json')
 app = firebase_admin.initialize_app(cred)
 
 db = firestore.client()
+
+'''
+Takes in an attribute string and a country string as variables. 
+Accesses firebase to find the info of the attribute according to the country. 
+Returns the information requested.
+
+Example query: getInfo(“population”,  “Western Sahara”)
+              return: 273008
+
+'''
+def getInfo(attribute, country):
+    return "got info!"
+
+'''
+Takes in an attribute string, a comparison operator string, and a number or string.
+Access firebase does a comparison operator to find what the user requests. 
+Returns what is found in firebase.
+
+Example query: getCompare(“gdp”, “==”, 500)
+              return: East Timor, Sierra Leone, Somalia
+
+'''
+def getCompare(attribute, comparison, input):
+    return "compared info!"
+
+'''
+Exact same functionality as "getInfo", but returns a dictionary containing all attriubutes
+'''
+def getDetailedInfo(attribute, country):
+    return "got detailed info!"
+
+'''
+Exact same functionality as "getCompare", but returns a dictionary containing all attributes
+'''
+def getDetailedCompare(attribute, comparison, input):
+    return "got detailed comparison!"
+
