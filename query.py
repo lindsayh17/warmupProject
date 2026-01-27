@@ -25,7 +25,6 @@ parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
 
-
 # DO QUERY!!!!
     # should take in all information important from parsed information
 
