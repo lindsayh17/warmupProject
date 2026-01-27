@@ -21,9 +21,6 @@ queried repeatedly.
 
 ## Help Command Function
 
-# The datastore operations: create wrapper functions for the various operations 
-# you’ll need to perform (load data, query)
-
 import pyparsing as pp
 
 # creates tokens and patterns. patterns must be matched if you use it to parse string
@@ -34,3 +31,12 @@ user_greeting = input("!? ")
 parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
+
+# DO QUERY!!!!
+# should take in all information important from parsed information
+
+
+
+
+# The datastore operations: create wrapper functions for the various operations 
+# you’ll need to perform (load data, query)
