@@ -50,12 +50,14 @@ print("Program Closed")
 # you’ll need to perform (load data, query)
 
 ####first query attempt independant
-attribute = pp.Word(pp.alphas)
+attribute_names = "country region population gdp area coastline"
+attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("= < > <= >= of")
-comparitor = pp.QuotedString('"')
+value = pp.QuotedString('"')
+detail = pp.Optional(pp.CaselessKeyword("detail"))
 
+parseString = attribute + operator + value + detail
 
-parseString = attribute + operator + comparitor
 # get user input
 user_greeting = input("!? ")
 # parse the user input
