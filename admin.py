@@ -15,17 +15,8 @@ $ python admin.py restaurant-data.json
 The admin program will then read and parse the JSON file and upload the data to your Firebase
 datastore. If the datastore already contains data, then the existing data will first be deleted.
 '''
-import firebase_admin
 import json
-from firebase_admin import credentials
-from firebase_admin import firestore
-
-# Use a service account.
-cred = credentials.Certificate('serviceAccountKey.json')
-
-app = firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+from connectionAuthentication import db
 
 class Country:
     def __init__(self, country, region, population, gdp, coastline):
