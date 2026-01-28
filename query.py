@@ -25,13 +25,7 @@ parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
 '''
-# DO QUERY!!!!
-    # should take in all information important from parsed information
 
-# DATASTORE OPERATIONS
-
-# HELP COMMAND FUNCTION
-    # helper to be used for parsing
 
 # PARSER COMPONENT
 '''
@@ -42,12 +36,6 @@ while (True):
 
 print("Program Closed")
 '''
-
-
-
-
-# The datastore operations: create wrapper functions for the various operations 
-# you’ll need to perform (load data, query)
 
 ####first query attempt independant
 attribute_names = "country region population gdp area coastline"
