@@ -48,8 +48,14 @@ detail = pp.Optional(pp.CaselessKeyword("detail"))
 defaultQuery = attribute + operator + value + detail
 
 # get user input
-user_greeting = input("!? ")
-# parse the user input
-parsed_greeting = defaultQuery.parse_string(user_greeting)
+while (True):
+    user_greeting = input("!? ")
+    # parse the user input
+    try:
+        parsed_greeting = defaultQuery.parse_string(user_greeting)
+        break
+    except pp.exceptions.ParseException:
+        print("invalid query")
+
 # print out our parsed list
 print(parsed_greeting)
