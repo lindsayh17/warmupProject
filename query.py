@@ -56,11 +56,12 @@ operator = pp.one_of("= < > <= >= of")
 value = pp.QuotedString('"')
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 
-parseString = attribute + operator + value + detail
+# example of default query is "region of "east timor" detail
+defaultQuery = attribute + operator + value + detail
 
 # get user input
 user_greeting = input("!? ")
 # parse the user input
-parsed_greeting = parseString.parse_string(user_greeting)
+parsed_greeting = defaultQuery.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
