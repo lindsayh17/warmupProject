@@ -13,7 +13,7 @@ Example query: getInfo(“population”,  “Western Sahara”)
 
 '''
 def getInfo(attribute, country):
-    doc_ref = db.collection("countries").document("Afghanistan ")
+    doc_ref = db.collection("countries").document("Afghanistan")
 
     doc = doc_ref.get()
     if doc.exists:

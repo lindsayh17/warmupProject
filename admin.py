@@ -52,10 +52,11 @@ def populate_firebase(source):
         collection_reference = db.collection("countries")
         for country in country_data:
             country_name = country['Country']
+            clean_country = country_name.strip()
             country.pop('Country')
             if country['Coastline'] == 0:
                 country.pop('Coastline')
-            collection_reference.document(country_name).set(country)
+            collection_reference.document(clean_country).set(country)
     except FileNotFoundError:
         print("Error: File not found")
 
