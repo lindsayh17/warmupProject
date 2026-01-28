@@ -13,7 +13,22 @@ Example query: getInfo(“population”,  “Western Sahara”)
 
 '''
 def getInfo(attribute, country):
-    return "got info!"
+    doc_ref = db.collection("countries").document("Afghanistan ")
+
+    doc = doc_ref.get()
+    if doc.exists:
+        print(f"Document data: {doc.to_dict()}")
+    else:
+        print("No such document.")
+
+    # docs = (
+    #     db.collection("countries")
+    #     .stream()
+    # )
+    #
+    # for doc in docs:
+    #     print(f"{doc.id} => {doc.to_dict()}")
+
 
 '''
 Takes in an attribute string, a comparison operator string, and a number or string.
@@ -45,3 +60,5 @@ Parser passes enum query type and all other necessary data like attribute, opera
 '''
 def doQuery(queryType, dataValues: list,detail: bool):
     return "list of values from firebase function"
+
+getInfo("Region", "Algeria")
