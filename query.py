@@ -15,7 +15,7 @@ To summarize: the data is uploaded once, using the admin program; after it’s b
 queried repeatedly.
 '''
 import pyparsing as pp
-
+'''
 # creates tokens and patterns. patterns must be matched if you use it to parse string
 greet = pp.Word(pp.alphas) + "," + pp.Word(pp.alphas) + "!"
 # get user input
@@ -24,26 +24,32 @@ user_greeting = input("!? ")
 parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
+'''
 
-# DO QUERY!!!!
-    # should take in all information important from parsed information
-
-# DATASTORE OPERATIONS
-
-# HELP COMMAND FUNCTION
-    # helper to be used for parsing
 
 # PARSER COMPONENT
+'''
 while (True):
     userString = input("!? ")
     if userString.lower() == "exit":
         break
 
 print("Program Closed")
+'''
 
+####first query attempt independant
+attribute_names = "country region population gdp area coastline"
+attribute = pp.one_of(attribute_names, caseless = True)
+operator = pp.one_of("= < > <= >= of")
+value = pp.QuotedString('"')
+detail = pp.Optional(pp.CaselessKeyword("detail"))
 
+# example of default query is "region of "east timor" detail
+defaultQuery = attribute + operator + value + detail
 
-
-
-# The datastore operations: create wrapper functions for the various operations 
-# you’ll need to perform (load data, query)
+# get user input
+user_greeting = input("!? ")
+# parse the user input
+parsed_greeting = defaultQuery.parse_string(user_greeting)
+# print out our parsed list
+print(parsed_greeting)

@@ -49,3 +49,8 @@ Exact same functionality as "getCompare", but returns a dictionary containing al
 def getDetailedCompare(attribute, comparison, input):
     return countries_ref.where(attribute, comparison, input)
 
+'''
+Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
+'''
+def doQuery(queryType, dataValues: list,detail: bool):
+    return "list of values from firebase function"
