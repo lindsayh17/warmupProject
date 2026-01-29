@@ -14,6 +14,7 @@ The flow for the user is:
 To summarize: the data is uploaded once, using the admin program; after it’s been uploaded, it can be
 queried repeatedly.
 '''
+from firebase import doQuery
 import pyparsing as pp
 '''
 # creates tokens and patterns. patterns must be matched if you use it to parse string
@@ -48,7 +49,7 @@ while (True):
     if user_query == helpQuery:
         print("| Available attributes: country, region, population, gdp, area, coastline |")
         print("| Available operators: =, <, >, <=, >=, of |")
-        print("| Use double quotes for string values. Example: region of \"east timor\" detail |")
+        print("| Use double quotes for string values. Example: region of \"East Timor\" detail |")
         print("| Integer values DO require quotes. Example: population > \"1000000\" |")
         continue
     try:
@@ -58,5 +59,30 @@ while (True):
     except pp.exceptions.ParseException:
         print("Invalid Query - please try again or type -h for help.")
 
-# print out our parsed list
-print(parsed_query)
+#print a list of each element type that makes up a compound query
+attribute_list = []
+operator_list = []
+value_list = []
+
+
+for item in parsed_query:
+    if item in attribute_names:
+        attribute_list.append(item)
+    elif item in ["=", "<", ">", "<=", ">="]:   
+        operator_list.append(item)
+    elif item not in ["and", "or", "detail"]:
+        value_list.append(item)
+
+if operator not in ["of"]:
+    if "and" in parsed_query:
+        queryType = "and"
+    elif "or" in parsed_query:
+        queryType = "or"
+    else:
+        queryType = "compare"
+    doQuery(queryType, attribute_list, operator_list, value_list, detail)
+
+elif operator in ["of"]:
+    queryType = "country_attribute"
+    doQuery(queryType, attribute_list, operator_list, value_list, detail)
+

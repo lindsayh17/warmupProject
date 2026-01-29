@@ -1,5 +1,6 @@
 from connectionAuthentication import db
 from enum import Enum
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 #actual database reference
 countries_ref = db.collection("countries")
@@ -9,7 +10,6 @@ class queryType(Enum):
     COUNTRY_ATTRIBUTE = "country_attribute"
     AND = "and"
     OR = "or"
-
 
 '''
 Takes in an attribute string and a country string as variables. 
@@ -39,8 +39,20 @@ Example query: getCompare(“gdp”, “==”, 500)
               return: East Timor, Sierra Leone, Somalia
 
 '''
-def getCompare(attribute, comparison, input):
-    return countries_ref.where(filter=FieldFilter(attribute, comparison, input))
+def getCompare(attribute, operator, input):
+    docs = (
+        db.collection("countries")
+        .where(filter=FieldFilter(attribute, operator, input))
+        .stream()
+    )
+
+    # make list of countries
+    countries = []
+    for doc in docs:
+        countries.append(doc.id)
+
+    return countries
+
 
 '''
 Exact same functionality as "getInfo", but returns a dictionary containing all attriubutes
@@ -85,15 +97,12 @@ def doQuery(queryType, attribute, operator, value, detail: bool):
             case queryType.COUNTRY_ATTRIBUTE:
                 return getInfo(attribute, value)
             case queryType.AND:
-                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
-                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                query1 = getCompare(attribute[0], operator[0], value[0])
+                query2 = getCompare(attribute[1], operator[1], value[1])
                 # concatenate the two queries here
             case queryType.OR:
-                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
-                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                query1 = getCompare(attribute[0], operator[0], value[0])
+                query2 = getCompare(attribute[1], operator[1], value[1])
                 # do the or thing here
 
     return "list of values from firebase function"
-
-getInfo("Region", "Algeria")
-
