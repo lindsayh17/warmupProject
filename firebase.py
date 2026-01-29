@@ -130,4 +130,4 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                         query1.append(country)
                 return query1
 
-    return "list of values from firebase function"
+    return "did not match to any in doQuery"
