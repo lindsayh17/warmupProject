@@ -69,8 +69,19 @@ def getDetailedInfo(attribute, country):
 '''
 Exact same functionality as "getCompare", but returns a dictionary containing all attributes
 '''
-def getDetailedCompare(attribute, comparison, input):
-    return countries_ref.where(attribute, comparison, input)
+def getDetailedCompare(attribute, operator, input):
+    docs = (
+        db.collection("countries")
+        .where(filter=FieldFilter(attribute, operator, input))
+        .stream()
+    )
+
+    # make list of countries
+    countryInfo = {}
+    for doc in docs:
+        countryInfo[doc.id] = doc.to_dict()
+
+    return countryInfo
 
 '''
 Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
@@ -85,17 +96,17 @@ def doQuery(queryType, attribute, operator, value, detail: bool):
             case queryType.AND:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
-                result = []
-                for countryInfo in query1:
-                    if countryInfo in query2:
-                        result.append(countryInfo)
+                result = {}
+                for countryInfo in query1.values():
+                    if countryInfo in query2.values():
+                        result[countryInfo.value] = countryInfo.items()
                 return result
             case queryType.OR:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
-                for countryInfo in query2:
-                    if countryInfo not in query1:
-                        query1.append(countryInfo)
+                for countryInfo in query2.values():
+                    if countryInfo not in query1.values():
+                        query1[countryInfo.value] = countryInfo.items()
                 return query1
     else:
         match queryType:
