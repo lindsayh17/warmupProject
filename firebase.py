@@ -74,30 +74,44 @@ def doQuery(queryType, attribute, operator, value, detail: bool):
     if detail:
         match queryType:
             case queryType.COMPARE:
-                return getDetailedCompare(attribute, operator, value)
+                return getDetailedCompare(attribute[0], operator[0], value[0])
             case queryType.COUNTRY_ATTRIBUTE:
-                return getDetailedInfo(attribute, value)
+                return getDetailedInfo(attribute[0], value[0])
             case queryType.AND:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
-                # concatenate the two queries here
+                result = []
+                for countryInfo in query1:
+                    if countryInfo in query2:
+                        result.append(countryInfo)
+                return result
             case queryType.OR:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
-                # do the or thing here
+                for countryInfo in query2:
+                    if countryInfo not in query1:
+                        query1.append(countryInfo)
+                return query1
     else:
         match queryType:
             case queryType.COMPARE:
-                return getCompare(attribute, operator, value)
+                return getCompare(attribute[0], operator[0], value[0])
             case queryType.COUNTRY_ATTRIBUTE:
-                return getInfo(attribute, value)
+                return getInfo(attribute[0], value[0])
             case queryType.AND:
                 query1 = getCompare(attribute[0], operator[0], value[0])
                 query2 = getCompare(attribute[1], operator[1], value[1])
-                # concatenate the two queries here
+                result = []
+                for country in query1:
+                    if country in query2:
+                        result.append(country)
+                return result
             case queryType.OR:
                 query1 = getCompare(attribute[0], operator[0], value[0])
                 query2 = getCompare(attribute[1], operator[1], value[1])
-                # do the or thing here
+                for country in query2:
+                    if country not in query1:
+                        query1.append(country)
+                return query1
 
     return "list of values from firebase function"
