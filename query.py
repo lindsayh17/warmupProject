@@ -44,15 +44,22 @@ operator = pp.one_of("= < > <= >= of")
 value = pp.QuotedString('"')
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
+helpCommand = pp.CaselessKeyword("-h")
 
 # example of default query is "region of "east timor" detail
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
+helpQuery = helpCommand
 
 # get user input
 while (True):
     user_query = input("!? ")
     # parse the user input
+    if user_query == helpQuery:
+        print("| Available attributes: country, region, population, gdp, area, coastline |")
+        print("| Available operators: =, <, >, <=, >=, of |")
+        print("| Use double quotes for string values. Example: region of \"east timor\" detail |")
+        continue
     try:
         parsed_query = defaultQuery.parse_string(user_query)
         parsed_query = compoundQuery.parse_string(user_query)
