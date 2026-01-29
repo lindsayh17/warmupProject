@@ -1,5 +1,6 @@
 from connectionAuthentication import db
 from enum import Enum
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 #actual database reference
 countries_ref = db.collection("countries")
@@ -80,15 +81,15 @@ def doQuery(queryType, attribute, operator, value, detail: bool):
             case queryType.COUNTRY_ATTRIBUTE:
                 return getInfo(attribute, value)
             case queryType.AND:
-                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
-                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                query1 = getCompare(attribute[0], operator[0], value[0])
+                query2 = getCompare(attribute[1], operator[1], value[1])
                 # concatenate the two queries here
             case queryType.OR:
-                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
-                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                query1 = getCompare(attribute[0], operator[0], value[0])
+                query2 = getCompare(attribute[1], operator[1], value[1])
                 # do the or thing here
 
     return "list of values from firebase function"
 
-getInfo("Region", "Algeria")
+# getCompare("Region", "==", "ASIA (EX. NEAR EAST)")
 
