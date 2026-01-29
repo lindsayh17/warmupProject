@@ -72,7 +72,7 @@ for item in parsed_query:
         operator_list.append(item)
     elif item not in ["and", "or", "detail"]:
         value_list.append(item)
-
+#doquery
 if operator not in ["of"]:
     if "and" in parsed_query:
         queryType = "and"
