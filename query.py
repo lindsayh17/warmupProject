@@ -48,7 +48,7 @@ while (True):
     if user_query == helpQuery:
         print("| Available attributes: country, region, population, gdp, area, coastline |")
         print("| Available operators: =, <, >, <=, >=, of |")
-        print("| Use double quotes for string values. Example: region of \"east timor\" detail |")
+        print("| Use double quotes for string values. Example: region of \"East Timor\" detail |")
         print("| Integer values DO require quotes. Example: population > \"1000000\" |")
         continue
     try:
@@ -58,5 +58,21 @@ while (True):
     except pp.exceptions.ParseException:
         print("Invalid Query - please try again or type -h for help.")
 
+#print a list of each element type that makes up a compound query
+attribute_list = []
+operator_list = []
+value_list = []
+
+
+for item in parsed_query:
+    if item in attribute_names:
+        attribute_list.append(item)
+    elif item in ["=", "<", ">", "<=", ">="]:   
+        operator_list.append(item)
+    elif item not in ["and", "or", "detail"]:
+        value_list.append(item)
+
+print(attribute_list, operator_list, value_list)
+
 # print out our parsed list
-print(parsed_query)
+#print(parsed_query)
