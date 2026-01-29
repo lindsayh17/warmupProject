@@ -25,7 +25,7 @@ def getInfo(attribute, country):
 
     doc = doc_ref.get()
     if doc.exists:
-        print(f"Document data: {doc.to_dict()}")
+        return doc.to_dict()[attribute]
     else:
         print("No such document.")
 
@@ -46,8 +46,13 @@ def getCompare(attribute, comparison, input):
 Exact same functionality as "getInfo", but returns a dictionary containing all attriubutes
 '''
 def getDetailedInfo(attribute, country):
-    query = countries_ref.where("country", "==", country)
-    return "got detailed info!"
+    doc_ref = db.collection("countries").document(country)
+
+    doc = doc_ref.get()
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        print("No such document.")
 
 '''
 Exact same functionality as "getCompare", but returns a dictionary containing all attributes
