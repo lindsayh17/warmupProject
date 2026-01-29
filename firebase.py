@@ -1,7 +1,15 @@
 from connectionAuthentication import db
+from enum import Enum
 
 #actual database reference
 countries_ref = db.collection("countries")
+
+class queryType(Enum):
+    COMPARE = "comparison"
+    COUNTRY_ATTRIBUTE = "country_attribute"
+    AND = "and"
+    OR = "or"
+
 
 '''
 Takes in an attribute string and a country string as variables. 
@@ -50,7 +58,37 @@ def getDetailedCompare(attribute, comparison, input):
 '''
 Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
 '''
-def doQuery(queryType, dataValues: list,detail: bool):
+def doQuery(queryType, attribute, operator, value, detail: bool):
+    if detail:
+        match queryType:
+            case queryType.COMPARE:
+                return getDetailedCompare(attribute, operator, value)
+            case queryType.COUNTRY_ATTRIBUTE:
+                return getDetailedInfo(attribute, value)
+            case queryType.AND:
+                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
+                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                # concatenate the two queries here
+            case queryType.OR:
+                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
+                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                # do the or thing here
+    else:
+        match queryType:
+            case queryType.COMPARE:
+                return getCompare(attribute, operator, value)
+            case queryType.COUNTRY_ATTRIBUTE:
+                return getInfo(attribute, value)
+            case queryType.AND:
+                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
+                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                # concatenate the two queries here
+            case queryType.OR:
+                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
+                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                # do the or thing here
+
     return "list of values from firebase function"
 
 getInfo("Region", "Algeria")
+
