@@ -11,7 +11,6 @@ class queryType(Enum):
     AND = "and"
     OR = "or"
 
-
 '''
 Takes in an attribute string and a country string as variables. 
 Accesses firebase to find the info of the attribute according to the country. 
@@ -40,8 +39,20 @@ Example query: getCompare(“gdp”, “==”, 500)
               return: East Timor, Sierra Leone, Somalia
 
 '''
-def getCompare(attribute, comparison, input):
-    return countries_ref.where(filter=FieldFilter(attribute, comparison, input))
+def getCompare(attribute, operator, input):
+    docs = (
+        db.collection("countries")
+        .where(filter=FieldFilter(attribute, operator, input))
+        .stream()
+    )
+
+    # make list of countries
+    countries = []
+    for doc in docs:
+        countries.append(doc.id)
+
+    return countries
+
 
 '''
 Exact same functionality as "getInfo", but returns a dictionary containing all attriubutes
@@ -90,6 +101,3 @@ def doQuery(queryType, attribute, operator, value, detail: bool):
                 # do the or thing here
 
     return "list of values from firebase function"
-
-# getCompare("Region", "==", "ASIA (EX. NEAR EAST)")
-
