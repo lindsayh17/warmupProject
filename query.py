@@ -54,7 +54,7 @@ while (True):
         continue
     try:
         parsed_query = defaultQuery.parse_string(user_query)
-        parsed_query = compoundQuery.parse_string(user_query)
+        #parsed_query = compoundQuery.parse_string(user_query)
         break
     except pp.exceptions.ParseException:
         print("Invalid Query - please try again or type -h for help.")
@@ -79,7 +79,7 @@ if operator not in ["of"]:
     elif "or" in parsed_query:
         queryType = "or"
     else:
-        queryType = "compare"
+        queryType = "comparison"
     doQuery(queryType, attribute_list, operator_list, value_list, detail)
 
 elif operator in ["of"]:
