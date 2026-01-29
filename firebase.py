@@ -87,12 +87,18 @@ def getDetailedCompare(attribute, operator, input):
 Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
 '''
 def doQuery(qType, attribute, operator, value, detail: bool):
+    #if user asks for detailed list
     if detail:
+        #try matching qType with the following cases:
         match qType:
+            #if queryType is a comparison (ex. (gdp < 1000)) then return getDetailedCompare
             case queryType.COMPARE:
                 return getDetailedCompare(attribute[0], operator[0], value[0])
+            #if queryType is a country attribute (ex. (population of China)) then return getDetailedInfo
             case queryType.COUNTRY_ATTRIBUTE:
                 return getDetailedInfo(attribute[0], value[0])
+            #By doing an AND/OR operation, you will only be using comparisons (ex. area > 10000 AND region == WESTERN EUROPE)
+            #if queryType is an AND, then get the attribute, operator, and value for each query, and get the results for both.
             case queryType.AND:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
