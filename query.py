@@ -43,10 +43,11 @@ attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("= < > <= >= of")
 value = pp.QuotedString('"')
 detail = pp.Optional(pp.CaselessKeyword("detail"))
+compoundOperator = pp.one_of("and or", caseless = True)
 
 # example of default query is "region of "east timor" detail
 defaultQuery = attribute + operator + value + detail
-compoundQuery = defaultQuery + pp.ZeroOrMore(pp.CaselessKeyword("and") + defaultQuery)
+compoundQuery = defaultQuery + compoundOperator + defaultQuery
 
 # get user input
 while (True):
