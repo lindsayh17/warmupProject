@@ -28,36 +28,43 @@ print(parsed_greeting)
 '''
 # PARSER COMPONENT
 
-####first query attempt independant
+#### first query attempt independant
 attribute_names = "country region population gdp area coastline"
 attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("= < > <= >= of")
 value = pp.QuotedString('"')
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
-helpCommand = pp.CaselessKeyword("-h")
+helpCommand = pp.CaselessKeyword("-help")
+exitCommand = pp.CaselessKeyword("-exit")
 
 # example of default query is "region of "east timor" detail
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 helpQuery = helpCommand
+exitQuery = exitCommand
+
 
 # get user input
 while (True):
     user_query = input("!? ")
-    # parse the user input
+    # check the user input for commands first
     if user_query == helpQuery:
         print("| Available attributes: country, region, population, gdp, area, coastline |")
         print("| Available operators: =, <, >, <=, >=, of |")
         print("| Use double quotes for string values. Example: region of \"East Timor\" detail |")
         print("| Integer values DO require quotes. Example: population > \"1000000\" |")
         continue
+    elif user_query == exitQuery:
+        break
+    # parse the user input 
     try:
         parsed_query = defaultQuery.parse_string(user_query)
+        # currently not working in practice, leaving out for now
         #parsed_query = compoundQuery.parse_string(user_query)
         break
     except pp.exceptions.ParseException:
-        print("Invalid Query - please try again or type -h for help.")
+        print("Invalid Query - please try again or type -help for help.")
 
 #print a list of each element type that makes up a compound query
 attribute_list = []
@@ -72,7 +79,7 @@ for item in parsed_query:
         operator_list.append(item)
     elif item not in ["and", "or", "detail"]:
         value_list.append(item)
-#doquery
+# doQuery
 if operator not in ["of"]:
     if "and" in parsed_query:
         queryType = "and"
