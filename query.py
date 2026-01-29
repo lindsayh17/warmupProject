@@ -14,6 +14,7 @@ The flow for the user is:
 To summarize: the data is uploaded once, using the admin program; after it’s been uploaded, it can be
 queried repeatedly.
 '''
+from firebase import doQuery
 import pyparsing as pp
 '''
 # creates tokens and patterns. patterns must be matched if you use it to parse string
@@ -72,7 +73,16 @@ for item in parsed_query:
     elif item not in ["and", "or", "detail"]:
         value_list.append(item)
 
-print(attribute_list, operator_list, value_list)
+if operator not in ["of"]:
+    if "and" in parsed_query:
+        queryType = "and"
+    elif "or" in parsed_query:
+        queryType = "or"
+    else:
+        queryType = "compare"
+    doQuery(queryType, attribute_list, operator_list, value_list, detail)
 
-# print out our parsed list
-#print(parsed_query)
+elif operator in ["of"]:
+    queryType = "country_attribute"
+    doQuery(queryType, attribute_list, operator_list, value_list, detail)
+
