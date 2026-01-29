@@ -46,16 +46,18 @@ detail = pp.Optional(pp.CaselessKeyword("detail"))
 
 # example of default query is "region of "east timor" detail
 defaultQuery = attribute + operator + value + detail
+compoundQuery = defaultQuery + pp.ZeroOrMore(pp.CaselessKeyword("and") + defaultQuery)
 
 # get user input
 while (True):
-    user_greeting = input("!? ")
+    user_query = input("!? ")
     # parse the user input
     try:
-        parsed_greeting = defaultQuery.parse_string(user_greeting)
+        parsed_query = defaultQuery.parse_string(user_query)
+        parsed_query = compoundQuery.parse_string(user_query)
         break
     except pp.exceptions.ParseException:
         print("invalid query")
 
 # print out our parsed list
-print(parsed_greeting)
+print(parsed_query)
