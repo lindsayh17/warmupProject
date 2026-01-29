@@ -25,17 +25,7 @@ parsed_greeting = greet.parse_string(user_greeting)
 # print out our parsed list
 print(parsed_greeting)
 '''
-
-
 # PARSER COMPONENT
-'''
-while (True):
-    userString = input("!? ")
-    if userString.lower() == "exit":
-        break
-
-print("Program Closed")
-'''
 
 ####first query attempt independant
 attribute_names = "country region population gdp area coastline"

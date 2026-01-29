@@ -13,21 +13,13 @@ Example query: getInfo(“population”,  “Western Sahara”)
 
 '''
 def getInfo(attribute, country):
-    doc_ref = db.collection("countries").document("Afghanistan")
+    doc_ref = db.collection("countries").document(country)
 
     doc = doc_ref.get()
     if doc.exists:
         print(f"Document data: {doc.to_dict()}")
     else:
         print("No such document.")
-
-    # docs = (
-    #     db.collection("countries")
-    #     .stream()
-    # )
-    #
-    # for doc in docs:
-    #     print(f"{doc.id} => {doc.to_dict()}")
 
 
 '''
