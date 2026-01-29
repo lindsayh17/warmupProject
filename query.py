@@ -49,13 +49,14 @@ while (True):
         print("| Available attributes: country, region, population, gdp, area, coastline |")
         print("| Available operators: =, <, >, <=, >=, of |")
         print("| Use double quotes for string values. Example: region of \"east timor\" detail |")
+        print("| Integer values DO require quotes. Example: population > \"1000000\" |")
         continue
     try:
         parsed_query = defaultQuery.parse_string(user_query)
         parsed_query = compoundQuery.parse_string(user_query)
         break
     except pp.exceptions.ParseException:
-        print("invalid query")
+        print("Invalid Query - please try again or type -h for help.")
 
 # print out our parsed list
 print(parsed_query)
