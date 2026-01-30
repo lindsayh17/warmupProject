@@ -126,12 +126,18 @@ def getDetailedCompare(attribute, operator, input):
 Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
 '''
 def doQuery(qType, attribute, operator, value, detail: bool):
-    # convert string qType to enum, will fail if string is not one of enum vals
+    # debugging
     print("*dQ*qType: \t\t\t" + qType)
+    #
+    # convert string qType to enum, will fail if string is not one of enum vals
     user_query_type = QueryType(qType)
+    # debugging
     print("*dQ*user_query_type: \t\t" + str(user_query_type))
+    # 
     if detail:
+        # debugging
         print("*dQ*detail = TRUE")
+        #
         match user_query_type:
             case QueryType.COMPARE:
                 return getDetailedCompare(attribute[0], operator[0], value[0])
@@ -153,7 +159,9 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                         query1[countryInfo.value] = countryInfo.items()
                 return query1
     else:
+        # debugging
         print("*dQ*detail = FALSE")
+        #
         match user_query_type:
             case QueryType.COMPARE:
                 return getCompare(attribute[0], operator[0], value[0])
@@ -229,7 +237,8 @@ while (True):
     print(f"*P*attribute list proccessed: \t {attribute_list}")
     print(f"*P*operator list processed: \t {operator_list}")
     print(f"*P*value list processed: \t {value_list}")
-
+    #
+    
     # doQuery
     if "of" not in operator_list:
         if "and" in parsed_query:
