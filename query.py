@@ -19,7 +19,7 @@ from enum import Enum
 from google.cloud.firestore_v1.base_query import FieldFilter
 import pyparsing as pp
 
-class queryType(Enum):
+class QueryType(Enum):
     COMPARE = "comparison"
     COUNTRY_ATTRIBUTE = "country_attribute"
     AND = "and"
@@ -33,12 +33,13 @@ attribute_names = "country region population gdp area coastline"
 detail_bool = False
 # Query pattern parts
 attribute = pp.one_of(attribute_names, caseless = True)
-operator = pp.one_of("= < > <= >= of")
+operator = pp.one_of("== < > <= >= of")
 value = pp.QuotedString('"')
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
-helpCommand = pp.CaselessKeyword("-help")
-exitCommand = pp.CaselessKeyword("-exit")
+# Commands
+helpCommand = pp.CaselessKeyword("help")
+exitCommand = pp.CaselessKeyword("exit")
 
 # Parser Patterns
 defaultQuery = attribute + operator + value + detail
@@ -74,6 +75,9 @@ Example query: getCompare(“gdp”, “==”, 500)
               return: East Timor, Sierra Leone, Somalia
 
 '''
+# TODO Note from Nick, been trying this out and not ever receiving any data in list
+# TODO tried {region == "western europe"} and got back: []
+# TODO need to test if this is case sensitive?
 def getCompare(attribute, operator, input):
     docs = (
         db.collection("countries")
@@ -122,13 +126,18 @@ def getDetailedCompare(attribute, operator, input):
 Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
 '''
 def doQuery(qType, attribute, operator, value, detail: bool):
+    # convert string qType to enum, will fail if string is not one of enum vals
+    print("*dQ*qType: \t\t\t" + qType)
+    user_query_type = QueryType(qType)
+    print("*dQ*user_query_type: \t\t" + str(user_query_type))
     if detail:
-        match qType:
-            case queryType.COMPARE:
+        print("*dQ*detail = TRUE")
+        match user_query_type:
+            case QueryType.COMPARE:
                 return getDetailedCompare(attribute[0], operator[0], value[0])
-            case queryType.COUNTRY_ATTRIBUTE:
+            case QueryType.COUNTRY_ATTRIBUTE:
                 return getDetailedInfo(attribute[0], value[0])
-            case queryType.AND:
+            case QueryType.AND:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
                 result = {}
@@ -136,7 +145,7 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                     if countryInfo in query2.values():
                         result[countryInfo.value] = countryInfo.items()
                 return result
-            case queryType.OR:
+            case QueryType.OR:
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
                 for countryInfo in query2.values():
@@ -144,12 +153,13 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                         query1[countryInfo.value] = countryInfo.items()
                 return query1
     else:
-        match qType:
-            case queryType.COMPARE:
+        print("*dQ*detail = FALSE")
+        match user_query_type:
+            case QueryType.COMPARE:
                 return getCompare(attribute[0], operator[0], value[0])
-            case queryType.COUNTRY_ATTRIBUTE:
+            case QueryType.COUNTRY_ATTRIBUTE:
                 return getInfo(attribute[0], value[0])
-            case queryType.AND:
+            case QueryType.AND:
                 query1 = getCompare(attribute[0], operator[0], value[0])
                 query2 = getCompare(attribute[1], operator[1], value[1])
                 result = []
@@ -157,7 +167,7 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                     if country in query2:
                         result.append(country)
                 return result
-            case queryType.OR:
+            case QueryType.OR:
                 query1 = getCompare(attribute[0], operator[0], value[0])
                 query2 = getCompare(attribute[1], operator[1], value[1])
                 for country in query2:
@@ -173,7 +183,7 @@ while (True):
     # Check for Help Command
     if user_query == helpQuery:
         print("| Available attributes: country, region, population, gdp, area, coastline |")
-        print("| Available operators: =, <, >, <=, >=, of |")
+        print("| Available operators: ==, <, >, <=, >=, of |")
         print("| Use double quotes for string values. Example: region of \"East Timor\" detail |")
         print("| Integer values DO require quotes. Example: population > \"1000000\" |")
         continue
@@ -203,37 +213,38 @@ while (True):
         if item in attribute_names:
             attribute_list.append(item)
         # add to list any operators
-        elif item in ["=", "<", ">", "<=", ">="]:   
+        elif item in ["==", "<", ">", "<=", ">=", "of"]:   
             operator_list.append(item)
-        # includes of, values of operators, names of countries
+        # includes values of operators, names of countries
         elif item not in ["and", "or", "detail"]:
             value_list.append(item)
-    
+    # add detail bool val to pass to doQuery
     if parsed_query[-1] == "detail":
         detailBool = True
     else:
         detailBool = False
     
     # debugging
-    print(parsed_query)
-    print(attribute_list)
-    print(operator_list)
-    print(value_list)
+    print(f"*P*Parsed List: \t\t {parsed_query}")
+    print(f"*P*attribute list proccessed: \t {attribute_list}")
+    print(f"*P*operator list processed: \t {operator_list}")
+    print(f"*P*value list processed: \t {value_list}")
 
     # doQuery
-    if operator not in ["of"]:
+    if "of" not in operator_list:
         if "and" in parsed_query:
-            queryType = "and"
+            qType = "and"
         elif "or" in parsed_query:
-            queryType = "or"
+            qType = "or"
         else:
-            queryType = "comparison"
-        doQuery(queryType, attribute_list, operator_list, value_list, detailBool)
+            qType = "comparison"
+        output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
+        print(output)
 
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
-    elif operator in ["of"]:
-        queryType = "country_attribute"
-        output = doQuery(queryType, attribute_list, operator_list, value_list, detailBool)
+    elif "of" in operator_list:
+        qType = "country_attribute"
+        output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
         print(output)
 
