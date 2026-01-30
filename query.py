@@ -40,7 +40,6 @@ compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
 helpCommand = pp.CaselessKeyword("help")
 exitCommand = pp.CaselessKeyword("exit")
-
 # Parser Patterns
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
@@ -77,7 +76,7 @@ Example query: getCompare(“gdp”, “==”, 500)
 '''
 # TODO Note from Nick, been trying this out and not ever receiving any data in list
 # TODO tried {region == "western europe"} and got back: []
-# TODO need to test if this is case sensitive?
+# TODO also need to test if this is case sensitive?
 def getCompare(attribute, operator, input):
     docs = (
         db.collection("countries")
@@ -247,7 +246,9 @@ while (True):
             qType = "or"
         else:
             qType = "comparison"
+        # will return list of 
         output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
+        # maybe do a 'if detailBool', then we know its gonna return a dict
         print(output)
 
     # 'attribute' of 'country' always returns one value,
@@ -255,5 +256,6 @@ while (True):
     elif "of" in operator_list:
         qType = "country_attribute"
         output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
+        # would also need to do a 'if detailBool' for the details of one country
         print(output)
 
