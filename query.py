@@ -34,7 +34,7 @@ detail_bool = False
 # Query pattern parts
 attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("== < > <= >= of")
-value = pp.QuotedString('"')
+value = pp.QuotedString('"') | pp.Word(pp.alphanums + "-_")
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
@@ -238,7 +238,7 @@ while (True):
     print(f"*P*operator list processed: \t {operator_list}")
     print(f"*P*value list processed: \t {value_list}")
     #
-    
+
     # doQuery
     if "of" not in operator_list:
         if "and" in parsed_query:
