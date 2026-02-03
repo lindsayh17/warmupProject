@@ -261,13 +261,11 @@ while (True):
     else: 
         try:
             parsed_query = compoundQuery.parse_string(user_query)
-            print(parsed_query)
-            # TODO currently not working in practice, leaving out for now
         except pp.exceptions.ParseException:
             try: 
                 parsed_query = defaultQuery.parse_string(user_query)
             except:
-                print("Invalid Query - please try again or type -help for help.")
+                print("Invalid Query - please try again or type help for help.")
                 continue
 
     # create lists of each element type
