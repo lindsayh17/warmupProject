@@ -74,14 +74,13 @@ def getInfo(attribute, country):
     :return: string containing that countries attribute
     """
 
-    capsAttribute = attribute.capitalize()
     capsCountry = country.lower().capitalize()
 
     doc_ref = db.collection("countries").document(capsCountry)
 
     doc = doc_ref.get()
     if doc.exists:
-        return doc.to_dict()[capsAttribute]
+        return doc.to_dict()[attribute]
     else:
         print("No such document.")
 
@@ -107,12 +106,11 @@ def getCompare(attribute, operator, input):
 
     # convert any region to all caps
     checkedInput = regionChecker(attribute, input)
-    capsAttribute = attribute.capitalize()
 
     # get all entries that satisfy condition
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(capsAttribute, operator, checkedInput))
+        .where(filter=FieldFilter(attribute, operator, checkedInput))
         .stream()
     )
 
@@ -161,12 +159,11 @@ def getDetailedCompare(attribute, operator, input):
 
     # convert any region to all caps
     checkedInput = regionChecker(attribute, input)
-    capsAttribute = attribute.capitalize()
 
     # get collection of countries that meet the criteria
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(capsAttribute, operator, checkedInput))
+        .where(filter=FieldFilter(attribute, operator, checkedInput))
         .stream()
     )
 
