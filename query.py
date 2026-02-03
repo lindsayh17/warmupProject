@@ -45,6 +45,13 @@ defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 helpQuery = helpCommand
 exitQuery = exitCommand
+
+def regionChecker(attribute, input):
+    if attribute == "Region":
+        return input.upper()
+    else:
+        return input
+
 '''
 Takes in an attribute string and a country string as variables. 
 Accesses firebase to find the info of the attribute according to the country. 
@@ -91,10 +98,14 @@ def getCompare(attribute, operator, input):
     :param input: limiting factor for values returned
     :return: list of countries
     """
+
+    # convert any region to all caps
+    checkedInput = regionChecker(attribute, input)
+
     # get all entries that satisfy condition
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, input))
+        .where(filter=FieldFilter(attribute, operator, checkedInput))
         .stream()
     )
 
@@ -116,6 +127,7 @@ def getDetailedInfo(attribute, country):
     :param country:
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
+
     # get country data
     doc_ref = db.collection("countries").document(country)
 
@@ -137,10 +149,14 @@ def getDetailedCompare(attribute, operator, input):
     :return: nested dictionary, where outer keys are the countries and values for those keys are the list of
         attributes and their values, as in the dict for getDetailedInfo
     """
+
+    # convert any region to all caps
+    checkedInput = regionChecker(attribute, input)
+
     # get collection of countries that meet the criteria
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, input))
+        .where(filter=FieldFilter(attribute, operator, checkedInput))
         .stream()
     )
 

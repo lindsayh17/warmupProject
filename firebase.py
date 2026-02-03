@@ -11,6 +11,12 @@ class queryType(Enum):
     AND = "and"
     OR = "or"
 
+def regionChecker(attribute, input):
+    if attribute == "Region":
+        return input.upper()
+    else:
+        return input
+
 '''
 Takes in an attribute string and a country string as variables. 
 Accesses firebase to find the info of the attribute according to the country. 
@@ -40,9 +46,14 @@ Example query: getCompare(“gdp”, “==”, 500)
 
 '''
 def getCompare(attribute, operator, input):
+
+    # convert any region to all caps
+    checkedInput = regionChecker(attribute, input)
+
+    # get all entries that satisfy condition
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, input))
+        .where(filter=FieldFilter(attribute, operator, checkedInput))
         .stream()
     )
 
@@ -137,3 +148,5 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                 return query1
 
     return "did not match to any in doQuery"
+
+print(getCompare('Region', '==', 'western Europe'))
