@@ -34,7 +34,12 @@ detail_bool = False
 # Query pattern parts
 attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("== < > <= >= of")
-value = pp.QuotedString('"') | pp.Word(pp.alphanums + "-_")
+value = (
+    pp.QuotedString('"') | 
+    pp.pyparsing_common.real |
+    pp.pyparsing_common.integer |
+    pp.Word(pp.alphanums + "-_") | pp.pyparsing_common.real
+)
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
@@ -256,6 +261,7 @@ while (True):
     else: 
         try:
             parsed_query = defaultQuery.parse_string(user_query)
+            print(parsed_query)
             # TODO currently not working in practice, leaving out for now
             #parsed_query = compoundQuery.parse_string(user_query)
         except pp.exceptions.ParseException:
@@ -272,8 +278,9 @@ while (True):
     # compound queries there should alwasy be 2 attributes and operators
     
     for item in parsed_query:
+        print(item)
         # add to list attribute names, e.g. "region", "population", etc.
-        if item in attribute_names:
+        if str(item) in attribute_names:
             attribute_list.append(item)
         # add to list any operators
         elif item in ["==", "<", ">", "<=", ">=", "of"]:   
