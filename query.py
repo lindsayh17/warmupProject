@@ -296,6 +296,10 @@ while (True):
     else:
         detailBool = False
     
+    # TODO handle logical error handling, for example currently coastline > stop
+    # TODO currently just gives nothing from firebase call, should give feedback
+    # TODO error instead
+
     # debugging
     print(f"*P*Parsed List: \t\t {parsed_query}")
     print(f"*P*attribute list proccessed: \t {attribute_list}")
@@ -313,8 +317,6 @@ while (True):
             qType = "comparison"
         # will return list of 
         output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
-        # maybe do a 'if detailBool', then we know its gonna return a dict
-        print(output)
 
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
@@ -322,5 +324,8 @@ while (True):
     elif "of" in operator_list:
         qType = "country_attribute"
         output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
-        # would also need to do a 'if detailBool' for the details of one country
-        print(output)
+    else:
+        output = "doQuery not called"
+
+    # TODO handle output style
+    print(output)
