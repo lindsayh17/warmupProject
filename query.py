@@ -263,13 +263,15 @@ while (True):
     # parse the user input 
     else: 
         try:
-            parsed_query = defaultQuery.parse_string(user_query)
+            parsed_query = compoundQuery.parse_string(user_query)
             print(parsed_query)
             # TODO currently not working in practice, leaving out for now
-            #parsed_query = compoundQuery.parse_string(user_query)
         except pp.exceptions.ParseException:
-            print("Invalid Query - please try again or type -help for help.")
-            continue
+            try: 
+                parsed_query = defaultQuery.parse_string(user_query)
+            except:
+                print("Invalid Query - please try again or type -help for help.")
+                continue
 
     # create lists of each element type
     # to make parsing compound queries easier for do_query function
