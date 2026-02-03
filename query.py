@@ -55,6 +55,12 @@ Example query: getInfo(“population”,  “Western Sahara”)
 
 '''
 def getInfo(attribute, country):
+    """
+    Gets the value of an attribute for a specific country.
+    :param attribute: region, population, area, gdp, coastline
+    :param country
+    :return: string containing that countries attribute
+    """
     doc_ref = db.collection("countries").document(country)
 
     doc = doc_ref.get()
@@ -77,6 +83,15 @@ Example query: getCompare(“gdp”, “==”, 500)
 # TODO tried {region == "western europe"} and got back: []
 # TODO also need to test if this is case sensitive?
 def getCompare(attribute, operator, input):
+    """
+    Uses the comparison operator to query firebase based on the input
+
+    :param attribute:
+    :param operator: <, >, ==, etc... used to compare all of the values in firebase to a specific input
+    :param input: limiting factor for values returned
+    :return: list of countries
+    """
+    # get all entries that satisfy condition
     docs = (
         db.collection("countries")
         .where(filter=FieldFilter(attribute, operator, input))
@@ -95,6 +110,13 @@ def getCompare(attribute, operator, input):
 Exact same functionality as "getInfo", but returns a dictionary containing all attriubutes
 '''
 def getDetailedInfo(attribute, country):
+    """
+    Gets all of the information for a specific country. An attribute may be supplied, but will not change results.
+    :param attribute:
+    :param country:
+    :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
+    """
+    # get country data
     doc_ref = db.collection("countries").document(country)
 
     doc = doc_ref.get()
@@ -107,6 +129,15 @@ def getDetailedInfo(attribute, country):
 Exact same functionality as "getCompare", but returns a dictionary containing all attributes
 '''
 def getDetailedCompare(attribute, operator, input):
+    """
+    Gets all information for all countries with attributes of a certain value
+    :param attribute:
+    :param operator:
+    :param input:
+    :return: nested dictionary, where outer keys are the countries and values for those keys are the list of
+        attributes and their values, as in the dict for getDetailedInfo
+    """
+    # get collection of countries that meet the criteria
     docs = (
         db.collection("countries")
         .where(filter=FieldFilter(attribute, operator, input))
@@ -131,17 +162,19 @@ def doQuery(qType, attribute, operator, value, detail: bool):
     user_query_type = QueryType(qType)
     # debugging
     print("*dQ*user_query_type: \t\t" + str(user_query_type))
-    # 
+
+    # if detail keyword is used, get all details for every query
     if detail:
         # debugging
         print("*dQ*detail = TRUE")
-        #
+        # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
                 return getDetailedCompare(attribute[0], operator[0], value[0])
             case QueryType.COUNTRY_ATTRIBUTE:
                 return getDetailedInfo(attribute[0], value[0])
             case QueryType.AND:
+                # select query results that appear on both sides of and
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
                 result = {}
@@ -150,22 +183,25 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                         result[countryInfo.value] = countryInfo.items()
                 return result
             case QueryType.OR:
+                # select all query results from both sides of or without duplicates
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
                 for countryInfo in query2.values():
                     if countryInfo not in query1.values():
                         query1[countryInfo.value] = countryInfo.items()
                 return query1
+    # no detail if keyword detail not included
     else:
         # debugging
         print("*dQ*detail = FALSE")
-        #
+        # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
                 return getCompare(attribute[0], operator[0], value[0])
             case QueryType.COUNTRY_ATTRIBUTE:
                 return getInfo(attribute[0], value[0])
             case QueryType.AND:
+                # select query results that appear on both sides of and
                 query1 = getCompare(attribute[0], operator[0], value[0])
                 query2 = getCompare(attribute[1], operator[1], value[1])
                 result = []
@@ -174,6 +210,7 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                         result.append(country)
                 return result
             case QueryType.OR:
+                # select all query results from both sides of or without duplicates
                 query1 = getCompare(attribute[0], operator[0], value[0])
                 query2 = getCompare(attribute[1], operator[1], value[1])
                 for country in query2:
