@@ -68,8 +68,11 @@ def getInfo(attribute, country):
     :param country
     :return: string containing that countries attribute
     """
-    doc_ref = db.collection("countries").document(country)
+
     capsAttribute = attribute.capitalize()
+    capsCountry = country.lower().capitalize()
+
+    doc_ref = db.collection("countries").document(capsCountry)
 
     doc = doc_ref.get()
     if doc.exists:
@@ -87,9 +90,6 @@ Example query: getCompare(“gdp”, “==”, 500)
               return: East Timor, Sierra Leone, Somalia
 
 '''
-# TODO Note from Nick, been trying this out and not ever receiving any data in list
-# TODO tried {region == "western europe"} and got back: []
-# TODO also need to test if this is case sensitive?
 def getCompare(attribute, operator, input):
     """
     Uses the comparison operator to query firebase based on the input
@@ -129,8 +129,11 @@ def getDetailedInfo(attribute, country):
     :param country:
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
+
+    capsCountry = country.lower().capitalize()
+
     # get country data
-    doc_ref = db.collection("countries").document(country)
+    doc_ref = db.collection("countries").document(capsCountry)
 
     doc = doc_ref.get()
     if doc.exists:
