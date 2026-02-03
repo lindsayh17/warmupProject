@@ -34,7 +34,7 @@ detail_bool = False
 # Query pattern parts
 attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("== < > <= >= of")
-value = pp.QuotedString('"', caseless = True) | pp.Word(pp.alphanums + "-_", caseless = True)
+value = pp.QuotedString('"') | pp.Word(pp.alphanums + "-_")
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
@@ -47,7 +47,7 @@ helpQuery = helpCommand
 exitQuery = exitCommand
 
 def regionChecker(attribute, input):
-    if attribute == "Region":
+    if attribute.lower() == "region":
         return input.upper()
     else:
         return input
@@ -69,10 +69,11 @@ def getInfo(attribute, country):
     :return: string containing that countries attribute
     """
     doc_ref = db.collection("countries").document(country)
+    capsAttribute = attribute.capitalize()
 
     doc = doc_ref.get()
     if doc.exists:
-        return doc.to_dict()[attribute]
+        return doc.to_dict()[capsAttribute]
     else:
         print("No such document.")
 
@@ -101,11 +102,12 @@ def getCompare(attribute, operator, input):
 
     # convert any region to all caps
     checkedInput = regionChecker(attribute, input)
+    capsAttribute = attribute.capitalize()
 
     # get all entries that satisfy condition
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, checkedInput))
+        .where(filter=FieldFilter(capsAttribute, operator, checkedInput))
         .stream()
     )
 
@@ -127,7 +129,6 @@ def getDetailedInfo(attribute, country):
     :param country:
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
-
     # get country data
     doc_ref = db.collection("countries").document(country)
 
@@ -152,11 +153,12 @@ def getDetailedCompare(attribute, operator, input):
 
     # convert any region to all caps
     checkedInput = regionChecker(attribute, input)
+    capsAttribute = attribute.capitalize()
 
     # get collection of countries that meet the criteria
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, checkedInput))
+        .where(filter=FieldFilter(capsAttribute, operator, checkedInput))
         .stream()
     )
 
