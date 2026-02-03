@@ -34,7 +34,7 @@ detail_bool = False
 # Query pattern parts
 attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("== < > <= >= of")
-value = pp.QuotedString('"', caseless = True) | pp.Word(pp.alphanums + "-_", caseless = True)
+value = pp.QuotedString('"') | pp.Word(pp.alphanums + "-_")
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
