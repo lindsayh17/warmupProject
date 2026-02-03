@@ -29,7 +29,7 @@ class QueryType(Enum):
 countries_ref = db.collection("countries")
 
 # Variables
-attribute_names = "country region population gdp area coastline"
+attribute_names = "Country Region Population GDP Area Coastline"
 detail_bool = False
 # Query pattern parts
 attribute = pp.one_of(attribute_names, caseless = True)
@@ -278,12 +278,11 @@ while (True):
     attribute_list = []
     operator_list = []
     value_list = []
+    flat_results = parsed_query.asList()
 
     # process parsed input
     # compound queries there should alwasy be 2 attributes and operators
-    
-    for item in parsed_query:
-        print(item)
+    for item in flat_results:
         # add to list attribute names, e.g. "region", "population", etc.
         if str(item) in attribute_names:
             attribute_list.append(item)
@@ -306,11 +305,11 @@ while (True):
     print(f"*P*value list processed: \t {value_list}")
     #
 
-    # doQuery
+    # handle type of query for doQuery function
     if "of" not in operator_list:
-        if "and" in parsed_query:
+        if "and" in flat_results:
             qType = "and"
-        elif "or" in parsed_query:
+        elif "or" in flat_results:
             qType = "or"
         else:
             qType = "comparison"
