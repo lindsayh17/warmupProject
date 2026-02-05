@@ -254,8 +254,7 @@ while (True):
     if user_query == helpQuery:
         print("| Available attributes: country, region, population, gdp, area, coastline |")
         print("| Available operators: ==, <, >, <=, >=, of |")
-        print("| Use double quotes for string values. Example: region of \"East Timor\" detail |")
-        print("| Integer values DO require quotes. Example: population > \"1000000\" |")
+        print("| Use double quotes for string values that are more than one word. Example: region of \"East Timor\" detail |")
         continue
     # Check for Exit Command
     elif user_query == exitQuery:
