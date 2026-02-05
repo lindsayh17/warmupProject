@@ -48,6 +48,7 @@ compoundOperator = pp.one_of("and or", caseless = True)
 helpCommand = pp.CaselessKeyword("help")
 exitCommand = pp.CaselessKeyword("exit")
 # Parser Patterns
+# TODO add capability to do just "japan detail" and get detailed results as if doing a 'country of japan detail'
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 parseQuery = defaultQuery ^ compoundQuery
@@ -213,9 +214,9 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                 # select all query results from both sides of or without duplicates
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
-                for countryInfo in query2.values():
-                    if countryInfo not in query1.values():
-                        query1[countryInfo.value] = countryInfo.items()
+                for countryName in query2.keys():
+                    if countryName not in query1.keys():
+                        query1[countryName] = query2.get(countryName)
                 return query1
     # no detail if keyword detail not included
     else:
