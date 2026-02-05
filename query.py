@@ -203,9 +203,9 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
                 query2 = getDetailedCompare(attribute[1], operator[1], value[1])
                 result = {}
-                for countryInfo in query1.values():
-                    if countryInfo in query2.values():
-                        result[countryInfo.values] = countryInfo.items()
+                for countryName in query1.keys():
+                    if countryName in query2.keys():
+                        result[countryName] = query1.get(countryName)
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
