@@ -50,6 +50,8 @@ exitCommand = pp.CaselessKeyword("exit")
 # Parser Patterns
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
+parseQuery = defaultQuery ^ compoundQuery
+
 helpQuery = helpCommand
 exitQuery = exitCommand
 
@@ -262,13 +264,10 @@ while (True):
     # parse the user input 
     else: 
         try:
-            parsed_query = compoundQuery.parse_string(user_query)
+            parsed_query = parseQuery.parse_string(user_query)
         except pp.exceptions.ParseException:
-            try: 
-                parsed_query = defaultQuery.parse_string(user_query)
-            except:
-                print("Invalid Query - please try again or type help for help.")
-                continue
+            print("Invalid Query - please try again or type help for help.")
+            continue
 
     # create lists of each element type
     # to make parsing compound queries easier for do_query function
