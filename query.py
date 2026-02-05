@@ -54,9 +54,6 @@ defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 parseQuery = defaultQuery ^ compoundQuery
 
-helpQuery = helpCommand
-exitQuery = exitCommand
-
 def country_exists(country_name):
     caps_country = country_name.lower().capitalize()
 
