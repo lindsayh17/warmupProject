@@ -26,7 +26,7 @@ class QueryType(Enum):
     OR = "or"
 
 #list of regions for error handling
-region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE", "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"]
+region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE", "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA", "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"]
 #database reference
 countries_ref = db.collection("countries")
 
@@ -53,6 +53,20 @@ regionCommand = pp.CaselessKeyword("regions")
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 parseQuery = defaultQuery ^ compoundQuery
+
+helpQuery = helpCommand
+exitQuery = exitCommand
+
+def country_exists(country_name):
+    caps_country = country_name.lower().capitalize()
+
+    doc_ref = db.collection("countries").document(caps_country)
+
+    doc = doc_ref.get()
+    if doc.exists:
+        return True
+    else:
+        return False
 
 def regionChecker(attribute, input):
     if attribute.lower() == "region":
@@ -308,6 +322,34 @@ while (True):
         detailBool = True
     else:
         detailBool = False
+
+     # Check value type
+    for index in range(0, len(flat_results)):
+        # if operator is of, must be followed by a country name
+        if flat_results[index] == "of":
+            if not country_exists(flat_results[index + 1]):
+                print(f"Invalid Query - {flat_results[index + 1]} is not a valid country.")
+                print(f"Please try again or type help for help. ")
+                continue
+        elif flat_results[index] in attribute_list:
+            if flat_results[index] == "Region":
+                # make sure region is in list of regions
+                if flat_results[index + 2] not in region_ref:
+                    print(f"Invalid Query - {flat_results[index + 2]}.")
+                    # TODO: print out list of regions
+                    print("Please try again or type help for help.")
+                    continue
+            elif flat_results[index] == "Country":
+                if not country_exists(flat_results[index + 2]):
+                    print(f"Invalid Query - {flat_results[index + 2]} is not a valid country.")
+                    print(f"Please try again or type help for help. ")
+                    continue
+            else:
+                if not isinstance(flat_results[index + 2], (int, float)):
+                    print(f"Invalid Query - {flat_results[index + 2]} cannot be read as a number.")
+                    print("Ensure that numbers are not in quotes")
+                    print("Please try again or type help for help.")
+                    continue
     
     # TODO handle logical error handling, for example currently coastline > stop
     # TODO currently just gives nothing from firebase call, should give feedback
