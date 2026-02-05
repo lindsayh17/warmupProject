@@ -25,9 +25,9 @@ class QueryType(Enum):
     AND = "and"
     OR = "or"
 
-#actual database reference
-
+#list of regions for error handling
 region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE", "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"]
+#database reference
 countries_ref = db.collection("countries")
 
 # Variables
