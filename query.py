@@ -205,7 +205,7 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                 result = {}
                 for countryInfo in query1.values():
                     if countryInfo in query2.values():
-                        result[countryInfo.value] = countryInfo.items()
+                        result[countryInfo.values] = countryInfo.items()
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
