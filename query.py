@@ -48,6 +48,7 @@ compoundOperator = pp.one_of("and or", caseless = True)
 helpCommand = pp.CaselessKeyword("help")
 exitCommand = pp.CaselessKeyword("exit")
 # Parser Patterns
+# TODO add capability to do just "japan detail" and get detailed results as if doing a 'country of japan detail'
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 parseQuery = defaultQuery ^ compoundQuery
