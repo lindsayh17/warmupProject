@@ -326,4 +326,9 @@ while (True):
         output = "doQuery not called"
 
     # TODO handle output style
-    print(output)
+    if detail:
+        # TODO handle detailed output
+        print(output)
+    else:
+        # TODO handle non detailed output
+        print(output)
