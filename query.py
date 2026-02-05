@@ -47,20 +47,34 @@ compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
 helpCommand = pp.CaselessKeyword("help")
 exitCommand = pp.CaselessKeyword("exit")
+regionCommand = pp.CaselessKeyword("regions")
 # Parser Patterns
 # TODO add capability to do just "japan detail" and get detailed results as if doing a 'country of japan detail'
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 parseQuery = defaultQuery ^ compoundQuery
 
-helpQuery = helpCommand
-exitQuery = exitCommand
-
 def regionChecker(attribute, input):
     if attribute.lower() == "region":
         return input.upper()
     else:
         return input
+
+# for help command, rules of the query language
+def helpFunc():
+    print("! 'exit' to leave program")
+    print("! 'regions' to see list of regions")
+    print("! Query Syntax")
+    print("!    Available query starters: country, region, population, gdp, area, coastline")
+    print("!    Available operators: ==, <, >, <=, >=, of")
+    print("!    Use quotations for regions or countries with more than one word")
+    print("!    Add 'detail' to end of query to get all values of countries")
+    print("!    Example: region of \"East Timor\" detail")
+
+# print out regions formatted
+def regions():
+    for region in region_ref:
+        print(region)
 
 '''
 Takes in an attribute string and a country string as variables. 
@@ -252,16 +266,16 @@ def doQuery(qType, attribute, operator, value, detail: bool):
 while (True):
     user_query = input("!? ")
     # Check for Help Command
-    if user_query == helpQuery:
-        print("| Available attributes: country, region, population, gdp, area, coastline |")
-        print("| Available operators: ==, <, >, <=, >=, of |")
-        print("| Use double quotes for string values. Example: region of \"East Timor\" detail |")
-        print("| Integer values DO require quotes. Example: population > \"1000000\" |")
+    if user_query == helpCommand:
+        helpFunc()
         continue
     # Check for Exit Command
-    elif user_query == exitQuery:
+    elif user_query == exitCommand:
         print("exiting program!!!")
         break
+    elif user_query == regionCommand:
+        regions()
+        continue
     # parse the user input 
     else: 
         try:
