@@ -266,7 +266,7 @@ while (True):
         try:
             parsed_query = parseQuery.parse_string(user_query)
         except pp.exceptions.ParseException:
-            print("Invalid Query - please try again or type help for help.")
+            print("Invalid Query - please try again or type help for a list of commands.")
             continue
 
     # create lists of each element type
