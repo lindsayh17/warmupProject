@@ -345,6 +345,7 @@ while (True):
         elif flat_results[index] in attribute_list:
             if flat_results[index] == "Region":
                 # make sure region is in list of regions
+                # TODO currently cannot do 'region of japan' to get region
                 if flat_results[index + 2] not in region_ref:
                     invalidQuery = True
                     print(f"Invalid Query - {flat_results[index + 2]} is not a region.")
