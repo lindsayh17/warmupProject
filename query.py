@@ -97,6 +97,8 @@ Example query: getInfo(“population”,  “Western Sahara”)
               return: 273008
 
 '''
+# TODO raises KeyError on attribute Country when quering 'country of japan'
+# TODO idk if this needs to be handled or not just wanted to document
 def getInfo(attribute, country):
     """
     Gets the value of an attribute for a specific country.
@@ -154,9 +156,9 @@ def getCompare(attribute, operator, input):
 
 
 '''
-Exact same functionality as "getInfo", but returns a dictionary containing all attriubutes
+Exact same functionality as "getInfo", but returns a dictionary containing all attributes
 '''
-def getDetailedInfo(attribute, country):
+def getDetailedInfo(country):
     """
     Gets all of the information for a specific country. An attribute may be supplied, but will not change results.
     :param attribute:
@@ -216,9 +218,12 @@ def doQuery(qType, attribute, operator, value, detail: bool):
     user_query_type = QueryType(qType)
     # debugging
     print("*dQ*user_query_type: \t\t" + str(user_query_type))
+    # if given just a country as value then return details of it
+    if not attribute and not operator and country_exists(value[0]):
+        return getDetailedInfo(value[0])
 
     # if detail keyword is used, get all details for every query
-    if detail:
+    elif detail:
         # debugging
         print("*dQ*detail = TRUE")
         # check user query type according to enum
@@ -226,7 +231,7 @@ def doQuery(qType, attribute, operator, value, detail: bool):
             case QueryType.COMPARE:
                 return getDetailedCompare(attribute[0], operator[0], value[0])
             case QueryType.COUNTRY_ATTRIBUTE:
-                return getDetailedInfo(attribute[0], value[0])
+                return getDetailedInfo(value[0])
             case QueryType.AND:
                 # select query results that appear on both sides of and
                 query1 = getDetailedCompare(attribute[0], operator[0], value[0])
@@ -334,7 +339,7 @@ while (True):
                 # make sure region is in list of regions
                 if flat_results[index + 2] not in region_ref:
                     print(f"Invalid Query - {flat_results[index + 2]}.")
-                    # TODO: print out list of regions
+                    regions()
                     print("Please try again or type help for help.")
                     continue
             elif flat_results[index] == "Country":
