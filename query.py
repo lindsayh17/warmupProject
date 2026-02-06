@@ -33,7 +33,7 @@ countries_ref = db.collection("countries")
 # Variables
 attribute_names = "Country Region Population GDP Area Coastline"
 detail_bool = False
-# Query pattern parts
+# Query pattern pieces
 attribute = pp.one_of(attribute_names, caseless = True)
 operator = pp.one_of("== < > <= >= of")
 value = (
@@ -49,10 +49,11 @@ helpCommand = pp.CaselessKeyword("help")
 exitCommand = pp.CaselessKeyword("exit")
 regionCommand = pp.CaselessKeyword("regions")
 # Parser Patterns
-# TODO add capability to do just "japan detail" and get detailed results as if doing a 'country of japan detail'
+countryDetailQuery = value + detail
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
-parseQuery = defaultQuery ^ compoundQuery
+# Parses the pattern with longest match
+parseQuery = countryDetailQuery ^ defaultQuery ^ compoundQuery
 
 def country_exists(country_name):
     try:
@@ -79,7 +80,7 @@ def regionChecker(attribute, input):
 def helpFunc():
     print("! 'exit' to leave program")
     print("! 'regions' to see list of regions")
-    print("! Query Syntax")
+    print("!  Query Syntax")
     print("!    Available query starters: country, region, population, gdp, area, coastline")
     print("!    Available operators: ==, <, >, <=, >=, of")
     print("!    Use quotations for regions or countries with more than one word")
