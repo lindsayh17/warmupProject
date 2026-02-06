@@ -55,7 +55,11 @@ compoundQuery = defaultQuery + compoundOperator + defaultQuery
 parseQuery = defaultQuery ^ compoundQuery
 
 def country_exists(country_name):
-    caps_country = country_name.lower().capitalize()
+    try:
+        caps_country = country_name.lower().capitalize()
+    except AttributeError:
+        # return false if not a string - can't be a country
+        return False
 
     doc_ref = db.collection("countries").document(caps_country)
 
@@ -320,37 +324,48 @@ while (True):
     else:
         detailBool = False
 
-     # Check value type
-    for index in range(0, len(flat_results)):
+    # keep track of whether query is invalid to fully break out of loop
+    invalidQuery = False
+    index = 0
+
+    while invalidQuery == False and index < len(flat_results):
         # if operator is of, must be followed by a country name
         if flat_results[index] == "of":
             if not country_exists(flat_results[index + 1]):
-                print(f"Invalid Query - {flat_results[index + 1]} is not a valid country.")
+                invalidQuery = True
+                print(f"Invalid Query - Enter a valid country.")
                 print(f"Please try again or type help for help. ")
-                continue
+                break
         elif flat_results[index] in attribute_list:
             if flat_results[index] == "Region":
                 # make sure region is in list of regions
                 if flat_results[index + 2] not in region_ref:
-                    print(f"Invalid Query - {flat_results[index + 2]}.")
+                    invalidQuery = True
+                    print(f"Invalid Query - {flat_results[index + 2]} is not a region.")
                     # TODO: print out list of regions
                     print("Please try again or type help for help.")
-                    continue
+                    break
             elif flat_results[index] == "Country":
                 if not country_exists(flat_results[index + 2]):
+                    invalidQuery = True
                     print(f"Invalid Query - {flat_results[index + 2]} is not a valid country.")
                     print(f"Please try again or type help for help. ")
-                    continue
+                    break
             else:
                 if not isinstance(flat_results[index + 2], (int, float)):
+                    invalidQuery = True
                     print(f"Invalid Query - {flat_results[index + 2]} cannot be read as a number.")
                     print("Ensure that numbers are not in quotes")
                     print("Please try again or type help for help.")
-                    continue
-    
+                    break
+        index += 1
+
     # TODO handle logical error handling, for example currently coastline > stop
     # TODO currently just gives nothing from firebase call, should give feedback
     # TODO error instead
+
+    if invalidQuery:
+        continue
 
     # debugging
     print(f"*P*Parsed List: \t\t {parsed_query}")
