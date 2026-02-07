@@ -348,6 +348,12 @@ while (True):
                 # make sure region is in list of regions
                 # TODO currently cannot do 'region of japan' to get region
                 if flat_results[index + 2] not in region_ref:
+                    if operator_list[0] == "of" and country_exists(flat_results[index + 2]):
+                        invalidQuery = False
+                        print(f"debugging- region of: {flat_results[index + 2]}") 
+                        output = doQuery(attribute_list, operator_list, value_list, detail)
+                        print(f"debugging- output of region of: {output}")
+                else:
                     invalidQuery = True
                     print(f"Invalid Query - {flat_results[index + 2]} is not a region.")
                     regions()
@@ -402,7 +408,6 @@ while (True):
     else:
         output = "doQuery not called"
 
-    # TODO handle output style
     #print output in a table when detail is true.
     if detail:
         if isinstance(output, dict):
@@ -410,4 +415,6 @@ while (True):
             print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
     else:
         # TODO handle non detailed output
-        print(output)
+        output = [output]
+        print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
+        #print(output)
