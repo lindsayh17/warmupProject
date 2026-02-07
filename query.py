@@ -18,6 +18,7 @@ from connectionAuthentication import db
 from enum import Enum
 from google.cloud.firestore_v1.base_query import FieldFilter
 import pyparsing as pp
+from tabulate import tabulate #detail formatting, pip install tabulate to use!
 
 class QueryType(Enum):
     COMPARE = "comparison"
@@ -402,9 +403,11 @@ while (True):
         output = "doQuery not called"
 
     # TODO handle output style
+    #print output in a table when detail is true.
     if detail:
-        # TODO handle detailed output
-        print(output)
+        if isinstance(output, dict):
+            output = [output]
+            print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
     else:
         # TODO handle non detailed output
         print(output)
