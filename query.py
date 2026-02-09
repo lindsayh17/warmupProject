@@ -104,8 +104,7 @@ Example query: getInfo(“population”,  “Western Sahara”)
               return: 273008
 
 '''
-# TODO raises KeyError on attribute Country when quering 'country of japan'
-# TODO idk if this needs to be handled or not just wanted to document
+
 def get_info(attribute_input, country):
     """
     Gets the value of an attribute for a specific country.
@@ -228,6 +227,10 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
     if not attribute_input and not operator_input and country_exists(value_input[0]):
         return get_detailed_info(value_input[0])
 
+    # if "Country of countryName" return details
+    if "Country" in attribute_input and "of" in operator_input and country_exists(value_input[0]):
+        return get_detailed_info(value_input[0])
+
     # if detail keyword is used, get all details for every query
     elif detail_input:
         # debugging
@@ -336,48 +339,40 @@ while True:
     invalidQuery = False
     index = 0
 
-    while invalidQuery == False and index < len(flat_results):
-        # if operator is of, must be followed by a country name
-        if flat_results[index] == "of":
-            if not country_exists(flat_results[index + 1]):
+    # check 'of' queries first
+    if "of" in operator_list:
+        if len(flat_results) == 6:
+            print("Invalid Query - Compound queries may not use 'of' operator")
+            invalidQuery = True
+        else:
+            if not country_exists(value_list[0]):
+                print(f"Invalid Query - {value_list[0]} is not a valid country")
                 invalidQuery = True
-                print(f"Invalid Query - Enter a valid country.")
-                print(f"Please try again or type help for help. ")
-                break
-        elif flat_results[index] in attribute_list:
-            if flat_results[index] == "Region":
-                # make sure region is in list of regions
-                # TODO currently cannot do 'region of japan' to get region
-                if flat_results[index + 2] not in region_ref:
-                    if operator_list[0] == "of" and country_exists(flat_results[index + 2]):
-                        invalidQuery = False
-                        print(f"debugging- region of: {flat_results[index + 2]}") 
-                        output = do_query(attribute_list, operator_list, value_list, detail)
-                        print(f"debugging- output of region of: {output}")
+    else:
+        while index < len(flat_results):
+            if flat_results[index] in attribute_list:
+                if flat_results[index] == "Region":
+                    # make sure region is in list of regions
+                    if flat_results[index + 2] not in region_ref and not country_exists(flat_results[index + 2]):
+                        invalidQuery = True
+                        print(f"Invalid Query - {flat_results[index + 2]} is not a region.")
+                        regions()
+                        print("Please try again or type help for help.")
+                        break
+                elif flat_results[index] == "Country":
+                    if not country_exists(flat_results[index + 2]):
+                        invalidQuery = True
+                        print(f"Invalid Query - {flat_results[index + 2]} is not a valid country.")
+                        print(f"Please try again or type help for help. ")
+                        break
                 else:
-                    invalidQuery = True
-                    print(f"Invalid Query - {flat_results[index + 2]} is not a region.")
-                    regions()
-                    print("Please try again or type help for help.")
-                    break
-            elif flat_results[index] == "Country":
-                if not country_exists(flat_results[index + 2]):
-                    invalidQuery = True
-                    print(f"Invalid Query - {flat_results[index + 2]} is not a valid country.")
-                    print(f"Please try again or type help for help. ")
-                    break
-            else:
-                if not isinstance(flat_results[index + 2], (int, float)):
-                    invalidQuery = True
-                    print(f"Invalid Query - {flat_results[index + 2]} cannot be read as a number.")
-                    print("Ensure that numbers are not in quotes")
-                    print("Please try again or type help for help.")
-                    break
-        index += 1
-
-    # TODO handle logical error handling, for example currently coastline > stop
-    # TODO currently just gives nothing from firebase call, should give feedback
-    # TODO error instead
+                    if not isinstance(flat_results[index + 2], (int, float)):
+                        invalidQuery = True
+                        print(f"Invalid Query - {flat_results[index + 2]} cannot be read as a number.")
+                        print("Ensure that numbers are not in quotes")
+                        print("Please try again or type help for help.")
+                        break
+            index += 1
 
     if invalidQuery:
         continue
