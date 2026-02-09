@@ -383,7 +383,8 @@ while True:
     print(f"*P*attribute list proccessed: \t {attribute_list}")
     print(f"*P*operator list processed: \t {operator_list}")
     print(f"*P*value list processed: \t {value_list}")
-    #
+
+    qtype = "comparison"
 
     # handle type of query for doQuery function
     if "of" not in operator_list:
@@ -404,20 +405,41 @@ while True:
     else:
         output = "doQuery not called"
 
-    #print output in a table when detail is true.
+    #print output in a table when detail is true
+    TABLE_COLUMNS = ["Country", "Region", "Area", "Population", "GDP", "Coastline"]
     if detailBool:
         if isinstance(output, dict):
-            output = [output]
-            print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
+            rows = []
+            for country, attrs in output.items():
+                row = {
+                    "Country": country,
+                    "Region": attrs.get("Region"),
+                    "Area": attrs.get("Area"),
+                    "Population": attrs.get("Population"),
+                    "GDP": attrs.get("GDP"),
+                    "Coastline": attrs.get("Coastline", "—"),
+                }
+                rows.append(row)
+
+
+            print(tabulate(rows, headers="keys", tablefmt="fancy_grid"))
     else:
-        # TODO handle non detailed output
-        if "Population" in attribute_list:
-            print(f"{output:,} people")
-        elif "Area" in attribute_list:
-            print(f"{output:,} km\u00b2")
-        elif "Coastline" in attribute_list:
-            print(f"{output:,} coast/area ratio")
-        elif "GDP" in attribute_list:
-            print(f"${output:,}")
+        if isinstance(output, list):
+            if not output:
+                print("No results found.")
+            else:
+                print_output = ""
+                for country in output:
+                    print_output += f"{country}, "
+                print(print_output)
         else:
-            print(output.capitalize())
+            if "Population" in attribute_list:
+                print(f"{output:,} people")
+            elif "Area" in attribute_list:
+                print(f"{output:,} km\u00b2")
+            elif "Coastline" in attribute_list:
+                print(f"{output:,} coast/area ratio")
+            elif "GDP" in attribute_list:
+                print(f"${output:,}")
+            else:
+                print(output.capitalize())
