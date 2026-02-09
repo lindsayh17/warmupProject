@@ -19,30 +19,41 @@ import json
 from connectionAuthentication import db
 
 class Country:
-    def __init__(self, country, region, population, gdp, coastline):
+    def __init__(self, country, region, area, population, gdp, coastline=None):
         self.country = country
         self.region = region
+        self.area = area
         self.population = population
         self.gdp = gdp
         self.coastline = coastline
 
-    @staticmethod
-    def from_dict(source):
-        return json.loads(source)
+    @classmethod
+    def from_dict(cls, source):
+        return cls(source['Country'], source['Region'], source['Area'], source['Population'], source['GDP'], source.get('Coastline'))
 
     def to_dict(self):
-        return {'Country': self.country, 'Region': self.region, 'Population': self.population, 'GDP': self.gdp, 'Coastline': self.coastline}
+        dictionary = {
+            'Region': self.region,
+            'Area': self.area,
+            'Population': self.population,
+            'GDP': self.gdp,
+        }
+
+        if self.coastline != 0:
+            dictionary['Coastline'] = self.coastline
+
+        return dictionary
 
     def __repr__(self):
         return f"Country(\
                 country={self.country}, \
                 region={self.region}, \
+                area={self.area}, \
                 population={self.population}, \
                 gdp={self.gdp}, \
                 coastline={self.coastline}\
             )"
 
-# TODO: should this be a function in the connectionAuthentication/Firebase file
 # TODO: should I have used the to_dict and from_dict
 def populate_firebase(source):
     try:
@@ -50,19 +61,12 @@ def populate_firebase(source):
             country_data = json.load(f)
 
         collection_reference = db.collection("countries")
-        for country in country_data:
-            country_name = country['Country']
-            clean_country = country_name.strip()
-            country.pop('Country')
-            if country['Coastline'] == 0:
-                country.pop('Coastline')
-            collection_reference.document(clean_country).set(country)
+        for country_dict in country_data:
+            country = Country.from_dict(country_dict)
+            collection_reference.document(country.country).set(country.to_dict())
+
     except FileNotFoundError:
         print("Error: File not found")
-
-# for country_object in country_data:
-#     doc_ref = db.collection(country_data[1]).document(country_object[1])
-#     doc_ref.set(country_object)
 
 if len(sys.argv) == 2:
     populate_firebase(sys.argv[1])

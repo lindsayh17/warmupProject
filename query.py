@@ -1,6 +1,7 @@
 # Query Program
 # TODO: Better documentation for functions and inline comments
 # TODO: go through and fix cases
+# TODO: review Jason's project doc
 '''
 the second program is the user query program. The example below shows my query program. A user
 can run this program as often as they want, but the query program will only return results if the admin program has been run (i.e., if the data has been uploaded).
