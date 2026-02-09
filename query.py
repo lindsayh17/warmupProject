@@ -1,4 +1,6 @@
 # Query Program
+# TODO: Better documentation for functions and inline comments
+# TODO: go through and fix cases
 '''
 the second program is the user query program. The example below shows my query program. A user
 can run this program as often as they want, but the query program will only return results if the admin program has been run (i.e., if the data has been uploaded).
@@ -71,14 +73,14 @@ def country_exists(country_name):
     else:
         return False
 
-def regionChecker(attribute, input):
-    if attribute.lower() == "region":
-        return input.upper()
+def region_checker(region_attribute, region_input):
+    if region_attribute.lower() == "region":
+        return region_input.upper()
     else:
-        return input
+        return region_input
 
 # for help command, rules of the query language
-def helpFunc():
+def help_func():
     print("! 'exit' to leave program")
     print("! 'regions' to see list of regions")
     print("!  Query Syntax")
@@ -104,21 +106,21 @@ Example query: getInfo(“population”,  “Western Sahara”)
 '''
 # TODO raises KeyError on attribute Country when quering 'country of japan'
 # TODO idk if this needs to be handled or not just wanted to document
-def getInfo(attribute, country):
+def get_info(attribute_input, country):
     """
     Gets the value of an attribute for a specific country.
-    :param attribute: region, population, area, gdp, coastline
+    :param attribute_input: region, population, area, gdp, coastline
     :param country
     :return: string containing that countries attribute
     """
 
-    capsCountry = country.lower().capitalize()
+    caps_country = country.lower().capitalize()
 
-    doc_ref = db.collection("countries").document(capsCountry)
+    doc_ref = db.collection("countries").document(caps_country)
 
     doc = doc_ref.get()
     if doc.exists:
-        return doc.to_dict()[attribute]
+        return doc.to_dict()[attribute_input]
     else:
         print("No such document.")
 
@@ -132,23 +134,23 @@ Example query: getCompare(“gdp”, “==”, 500)
               return: East Timor, Sierra Leone, Somalia
 
 '''
-def getCompare(attribute, operator, input):
+def get_compare(attribute_input, operator_input, value_input):
     """
     Uses the comparison operator to query firebase based on the input
 
-    :param attribute:
-    :param operator: <, >, ==, etc... used to compare all of the values in firebase to a specific input
-    :param input: limiting factor for values returned
+    :param attribute_input:
+    :param operator_input: <, >, ==, etc... used to compare all of the values in firebase to a specific input
+    :param value_input: limiting factor for values returned
     :return: list of countries
     """
 
     # convert any region to all caps
-    checkedInput = regionChecker(attribute, input)
+    checked_input = region_checker(attribute_input, value_input)
 
     # get all entries that satisfy condition
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, checkedInput))
+        .where(filter=FieldFilter(attribute_input, operator_input, checked_input))
         .stream()
     )
 
@@ -163,18 +165,17 @@ def getCompare(attribute, operator, input):
 '''
 Exact same functionality as "getInfo", but returns a dictionary containing all attributes
 '''
-def getDetailedInfo(country):
+def get_detailed_info(country):
     """
-    Gets all of the information for a specific country. An attribute may be supplied, but will not change results.
-    :param attribute:
+    Gets all the information for a specific country. An attribute may be supplied, but will not change results.
     :param country:
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
 
-    capsCountry = country.lower().capitalize()
+    caps_country = country.lower().capitalize()
 
     # get country data
-    doc_ref = db.collection("countries").document(capsCountry)
+    doc_ref = db.collection("countries").document(caps_country)
 
     doc = doc_ref.get()
     if doc.exists:
@@ -185,62 +186,62 @@ def getDetailedInfo(country):
 '''
 Exact same functionality as "getCompare", but returns a dictionary containing all attributes
 '''
-def getDetailedCompare(attribute, operator, input):
+def get_detailed_compare(attribute_input, operator_input, value_input):
     """
     Gets all information for all countries with attributes of a certain value
-    :param attribute:
-    :param operator:
-    :param input:
+    :param attribute_input:
+    :param operator_input:
+    :param value_input:
     :return: nested dictionary, where outer keys are the countries and values for those keys are the list of
         attributes and their values, as in the dict for getDetailedInfo
     """
 
     # convert any region to all caps
-    checkedInput = regionChecker(attribute, input)
+    checked_input = region_checker(attribute_input, value_input)
 
     # get collection of countries that meet the criteria
     docs = (
         db.collection("countries")
-        .where(filter=FieldFilter(attribute, operator, checkedInput))
+        .where(filter=FieldFilter(attribute_input, operator_input, checked_input))
         .stream()
     )
 
     # make list of countries
-    countryInfo = {}
+    country_info = {}
     for doc in docs:
-        countryInfo[doc.id] = doc.to_dict()
+        country_info[doc.id] = doc.to_dict()
 
-    return countryInfo
+    return country_info
 
 '''
 Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
 '''
-def doQuery(qType, attribute, operator, value, detail: bool):
+def do_query(q_type, attribute_input, operator_input, value_input, detail_input: bool):
     # debugging
-    print("*dQ*qType: \t\t\t" + qType)
+    print("*dQ*qType: \t\t\t" + q_type)
     #
     # convert string qType to enum, will fail if string is not one of enum vals
-    user_query_type = QueryType(qType)
+    user_query_type = QueryType(q_type)
     # debugging
     print("*dQ*user_query_type: \t\t" + str(user_query_type))
     # if given just a country as value then return details of it
-    if not attribute and not operator and country_exists(value[0]):
-        return getDetailedInfo(value[0])
+    if not attribute_input and not operator_input and country_exists(value_input[0]):
+        return get_detailed_info(value_input[0])
 
     # if detail keyword is used, get all details for every query
-    elif detail:
+    elif detail_input:
         # debugging
         print("*dQ*detail = TRUE")
         # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
-                return getDetailedCompare(attribute[0], operator[0], value[0])
+                return get_detailed_compare(attribute_input[0], operator_input[0], value_input[0])
             case QueryType.COUNTRY_ATTRIBUTE:
-                return getDetailedInfo(value[0])
+                return get_detailed_info(value_input[0])
             case QueryType.AND:
                 # select query results that appear on both sides of and
-                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
-                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                query1 = get_detailed_compare(attribute_input[0], operator_input[0], value_input[0])
+                query2 = get_detailed_compare(attribute_input[1], operator_input[1], value_input[1])
                 result = {}
                 for countryName in query1.keys():
                     if countryName in query2.keys():
@@ -248,8 +249,8 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
-                query1 = getDetailedCompare(attribute[0], operator[0], value[0])
-                query2 = getDetailedCompare(attribute[1], operator[1], value[1])
+                query1 = get_detailed_compare(attribute_input[0], operator_input[0], value_input[0])
+                query2 = get_detailed_compare(attribute_input[1], operator_input[1], value_input[1])
                 for countryName in query2.keys():
                     if countryName not in query1.keys():
                         query1[countryName] = query2.get(countryName)
@@ -261,13 +262,13 @@ def doQuery(qType, attribute, operator, value, detail: bool):
         # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
-                return getCompare(attribute[0], operator[0], value[0])
+                return get_compare(attribute_input[0], operator_input[0], value_input[0])
             case QueryType.COUNTRY_ATTRIBUTE:
-                return getInfo(attribute[0], value[0])
+                return get_info(attribute_input[0], value_input[0])
             case QueryType.AND:
                 # select query results that appear on both sides of and
-                query1 = getCompare(attribute[0], operator[0], value[0])
-                query2 = getCompare(attribute[1], operator[1], value[1])
+                query1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
+                query2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
                 result = []
                 for country in query1:
                     if country in query2:
@@ -275,8 +276,8 @@ def doQuery(qType, attribute, operator, value, detail: bool):
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
-                query1 = getCompare(attribute[0], operator[0], value[0])
-                query2 = getCompare(attribute[1], operator[1], value[1])
+                query1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
+                query2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
                 for country in query2:
                     if country not in query1:
                         query1.append(country)
@@ -285,11 +286,11 @@ def doQuery(qType, attribute, operator, value, detail: bool):
     return "did not match to any in doQuery"
 
 # PARSER COMPONENT
-while (True):
+while True:
     user_query = input("!? ")
     # Check for Help Command
     if user_query == helpCommand:
-        helpFunc()
+        help_func()
         continue
     # Check for Exit Command
     elif user_query == exitCommand:
@@ -314,7 +315,7 @@ while (True):
     flat_results = parsed_query.asList()
 
     # process parsed input
-    # compound queries there should alwasy be 2 attributes and operators
+    # compound queries there should always be 2 attributes and operators
     for item in flat_results:
         # add to list attribute names, e.g. "region", "population", etc.
         if str(item) in attribute_names:
@@ -351,7 +352,7 @@ while (True):
                     if operator_list[0] == "of" and country_exists(flat_results[index + 2]):
                         invalidQuery = False
                         print(f"debugging- region of: {flat_results[index + 2]}") 
-                        output = doQuery(attribute_list, operator_list, value_list, detail)
+                        output = do_query(attribute_list, operator_list, value_list, detail)
                         print(f"debugging- output of region of: {output}")
                 else:
                     invalidQuery = True
@@ -397,14 +398,14 @@ while (True):
         else:
             qType = "comparison"
         # will return list of 
-        output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
+        output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
 
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
     # set query type and call doQuery function from firebase module
     elif "of" in operator_list:
         qType = "country_attribute"
-        output = doQuery(qType, attribute_list, operator_list, value_list, detailBool)
+        output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
     else:
         output = "doQuery not called"
 
