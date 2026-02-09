@@ -17,6 +17,8 @@ The flow for the user is:
 To summarize: the data is uploaded once, using the admin program; after it’s been uploaded, it can be
 queried repeatedly.
 '''
+from operator import truediv
+
 from connectionAuthentication import db
 from enum import Enum
 from google.cloud.firestore_v1.base_query import FieldFilter
@@ -35,7 +37,8 @@ region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN
 countries_ref = db.collection("countries")
 
 # Variables
-attribute_names = "Country Region Population GDP Area Coastline"
+attribute_names = ["Country", "Region", "Population", "GDP", "Area", "Coastline"]
+operators = ["==", "<", ">", "<=", ">=", "of"]
 detail_bool = False
 # Query pattern pieces
 attribute = pp.one_of(attribute_names, caseless = True)
@@ -57,11 +60,11 @@ countryDetailQuery = value + detail
 defaultQuery = attribute + operator + value + detail
 compoundQuery = defaultQuery + compoundOperator + defaultQuery
 # Parses the pattern with longest match
-parseQuery = countryDetailQuery ^ defaultQuery ^ compoundQuery
+parseQuery = (countryDetailQuery ^ defaultQuery ^ compoundQuery) + pp.StringEnd()
 
 def country_exists(country_name):
     try:
-        caps_country = country_name.lower().capitalize()
+        caps_country = country_name.title()
     except AttributeError:
         # return false if not a string - can't be a country
         return False
@@ -79,6 +82,38 @@ def region_checker(region_attribute, region_input):
         return region_input.upper()
     else:
         return region_input
+
+def valid_value(attr, op, val):
+    if op == "of":
+        if not country_exists(val):
+            print(f"Invalid Query - {val} is not a valid country")
+            return False
+    else:
+        if attr == "Region":
+            if val not in region_ref:
+                print(f"Invalid Query - {val} is not a region.")
+                regions()
+                print("Please try again or type help for help.")
+                return False
+            elif op != "==":
+                print(f"Invalid Query - {op} is not a valid operator for regions.")
+                return False
+        elif attr == "Country":
+            if not country_exists(val):
+                print(f"Invalid Query - {val} is not a valid country.")
+                print(f"Please try again or type help for help. ")
+                return False
+            elif op != "==":
+                print(f"Invalid Query - {op} is not a valid operator for country.")
+                return False
+        else:
+            if not isinstance(val, (int, float)):
+                print(f"Invalid Query - {val} cannot be read as a number.")
+                print("Ensure that numbers are not in quotes")
+                print("Please try again or type help for help.")
+                return False
+
+    return True
 
 # for help command, rules of the query language
 def help_func():
@@ -114,7 +149,7 @@ def get_info(attribute_input, country):
     :return: string containing that countries attribute
     """
 
-    caps_country = country.lower().capitalize()
+    caps_country = country.title()
 
     doc_ref = db.collection("countries").document(caps_country)
 
@@ -172,7 +207,7 @@ def get_detailed_info(country):
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
 
-    caps_country = country.lower().capitalize()
+    caps_country = country.title()
 
     # get country data
     doc_ref = db.collection("countries").document(caps_country)
@@ -291,6 +326,7 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
 
 # PARSER COMPONENT
 while True:
+    detail_bool = False
     user_query = input("!? ")
     # Check for Help Command
     if user_query == helpCommand:
@@ -318,62 +354,68 @@ while True:
     value_list = []
     flat_results = parsed_query.asList()
 
-    # process parsed input
-    # compound queries there should always be 2 attributes and operators
-    for item in flat_results:
-        # add to list attribute names, e.g. "region", "population", etc.
-        if str(item) in attribute_names:
-            attribute_list.append(item)
-        # add to list any operators
-        elif item in ["==", "<", ">", "<=", ">=", "of"]:   
-            operator_list.append(item)
-        # includes values of operators, names of countries
-        elif item not in ["and", "or", "detail"]:
-            value_list.append(item)
-    # add detail bool val to pass to doQuery
-    if parsed_query[-1] == "detail":
-        detailBool = True
-    else:
-        detailBool = False
-
-    # keep track of whether query is invalid to fully break out of loop
+    # new processing to help with error handling
     invalidQuery = False
-    index = 0
 
-    # check 'of' queries first
-    if "of" in operator_list:
-        if len(flat_results) == 6:
-            print("Invalid Query - Compound queries may not use 'of' operator")
+    # check query length
+    if len(flat_results) == 3 or len(flat_results) == 4:
+        # attribute validation
+        if flat_results[0] not in attribute_names:
+            print("Invalid Query - queries must start with an attribute.")
             invalidQuery = True
         else:
-            if not country_exists(value_list[0]):
-                print(f"Invalid Query - {value_list[0]} is not a valid country")
+            attribute_list.append(flat_results[0])
+            # operator validation
+            if flat_results[1] not in operators:
+                print("Invalid Query - attributes must be followed by an operator.")
                 invalidQuery = True
-    else:
-        while index < len(flat_results):
-            if flat_results[index] in attribute_list:
-                if flat_results[index] == "Region":
-                    # make sure region is in list of regions
-                    if flat_results[index + 2] not in region_ref and not country_exists(flat_results[index + 2]):
-                        invalidQuery = True
-                        print(f"Invalid Query - {flat_results[index + 2]} is not a region.")
-                        regions()
-                        print("Please try again or type help for help.")
-                        break
-                elif flat_results[index] == "Country":
-                    if not country_exists(flat_results[index + 2]):
-                        invalidQuery = True
-                        print(f"Invalid Query - {flat_results[index + 2]} is not a valid country.")
-                        print(f"Please try again or type help for help. ")
-                        break
+            else:
+                operator_list.append(flat_results[1])
+                # value validation
+                if not valid_value(flat_results[0], flat_results[1], flat_results[2]):
+                    invalidQuery = True
                 else:
-                    if not isinstance(flat_results[index + 2], (int, float)):
+                    value_list.append(flat_results[2])
+                    if len(flat_results) == 4 and flat_results[-1] != "detail":
+                        print(f"Invalid Query - {flat_results[-1]} is not a valid keyword.")
                         invalidQuery = True
-                        print(f"Invalid Query - {flat_results[index + 2]} cannot be read as a number.")
-                        print("Ensure that numbers are not in quotes")
-                        print("Please try again or type help for help.")
-                        break
-            index += 1
+                    elif len(flat_results) == 4 and flat_results[-1] == "detail":
+                        detail_bool = True
+    elif len(flat_results) == 7 or len(flat_results) == 8:
+        # check for compound
+        if flat_results[3] != "and" and flat_results[3] != "or":
+            print("Invalid Query - compound queries must be two three-parameter queries join by 'and' or 'or'.")
+            invalidQuery = True
+        else:
+            if flat_results[0] not in attribute_names and flat_results[3] not in attribute_names:
+                print("Invalid Query - queries must start with an attribute.")
+                invalidQuery = True
+            else:
+                attribute_list.append(flat_results[0])
+                attribute_list.append(flat_results[3])
+                # operator validation
+                if flat_results[1] not in operators or flat_results[5] not in operators:
+                    print("Invalid Query - attributes must be followed by an operator.")
+                    invalidQuery = True
+                else:
+                    operator_list.append(flat_results[1])
+                    operator_list.append(flat_results[5])
+                    # value validation
+                    if not valid_value(flat_results[0], flat_results[1], flat_results[2]):
+                        invalidQuery = True
+                    elif not valid_value(flat_results[4], flat_results[5], flat_results[6]):
+                        invalidQuery = True
+                    else:
+                        value_list.append(flat_results[2])
+                        value_list.append(flat_results[6])
+                        if len(flat_results) == 8 and flat_results[-1] != "detail":
+                            print(f"Invalid Query - {flat_results[-1]} is not a valid keyword.")
+                            invalidQuery = True
+                        elif len(flat_results) == 8 and flat_results[-1] == "detail":
+                            detail_bool = True
+    else:
+        print("Invalid Query - wrong number of arguments")
+        invalidQuery = True
 
     if invalidQuery:
         continue
@@ -394,30 +436,42 @@ while True:
         else:
             qType = "comparison"
         # will return list of 
-        output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
+        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
     # set query type and call doQuery function from firebase module
     elif "of" in operator_list:
         qType = "country_attribute"
-        output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
+        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     else:
         output = "doQuery not called"
 
     #print output in a table when detail is true.
-    if detailBool:
-        if isinstance(output, dict):
-            output = [output]
-            print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
+    if not output:
+        print("No results found.")
+    elif detail_bool:
+        rows = []
+        for country, data in output.items():
+            row = {"Country": country}
+            row.update(data)
+            rows.append(row)
+        print(tabulate(rows, headers="keys", tablefmt="fancy_grid"))
     else:
-        # TODO handle non detailed output
-        if "Population" in attribute_list:
-            print(f"{output:,} people")
-        elif "Area" in attribute_list:
-            print(f"{output:,} km\u00b2")
-        elif "Coastline" in attribute_list:
-            print(f"{output:,} coast/area ratio")
-        elif "GDP" in attribute_list:
-            print(f"${output:,}")
-        else:
+        # non-detailed output
+        if isinstance(output, (int, float)):
+            if "Population" in attribute_list:
+                print(f"{output:,} people")
+            elif "Area" in attribute_list:
+                print(f"{output:,} km\u00b2")
+            elif "Coastline" in attribute_list:
+                print(f"{output:,} coast/area ratio")
+            elif "GDP" in attribute_list:
+                print(f"${output:,}")
+            else:
+                print(output)
+        elif isinstance(output, list):
+            print(", ".join(output))
+        elif isinstance(output, str):
             print(output.capitalize())
+        else:
+            print(output)
