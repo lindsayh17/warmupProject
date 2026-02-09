@@ -358,7 +358,27 @@ while True:
     invalidQuery = False
 
     # check query length
-    if len(flat_results) == 3 or len(flat_results) == 4:
+
+    # countryName query
+    if len(flat_results) == 1:
+        if not country_exists(flat_results[0]):
+            print("Invalid Query - only countries may be used as single parameter queries.")
+            invalidQuery = True
+        else:
+            value_list.append(flat_results[0])
+            detail_bool = True
+    # countryName detail query
+    elif len(flat_results) == 2:
+        if not country_exists(flat_results[0]):
+            print(f"Invalid Query - {flat_results[0]} is not a valid country.")
+            invalidQuery = True
+        else:
+            if flat_results[1] != "detail":
+                print(f"Invalid Query - {flat_results[1]} is not a valid keyword.")
+                invalidQuery = True
+            else:
+                detail_bool = True
+    elif len(flat_results) == 3 or len(flat_results) == 4:
         # attribute validation
         if flat_results[0] not in attribute_names:
             print("Invalid Query - queries must start with an attribute.")
