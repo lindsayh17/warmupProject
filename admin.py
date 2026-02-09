@@ -20,7 +20,7 @@ from connectionAuthentication import db
 
 class Country:
     def __init__(self, country, region, area, population, gdp, coastline=None):
-        self.country = country
+        self.country = country.strip()
         self.region = region
         self.area = area
         self.population = population
@@ -54,11 +54,12 @@ class Country:
                 coastline={self.coastline}\
             )"
 
-# TODO: should I have used the to_dict and from_dict
+# TODO: delete current docs first?
 def populate_firebase(source):
     try:
         with open(source, 'r') as f:
             country_data = json.load(f)
+
 
         collection_reference = db.collection("countries")
         for country_dict in country_data:

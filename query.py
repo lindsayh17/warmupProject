@@ -395,7 +395,6 @@ while True:
             qType = "comparison"
         # will return list of 
         output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
-
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
     # set query type and call doQuery function from firebase module
@@ -406,12 +405,19 @@ while True:
         output = "doQuery not called"
 
     #print output in a table when detail is true.
-    if detail:
+    if detailBool:
         if isinstance(output, dict):
             output = [output]
             print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
     else:
         # TODO handle non detailed output
-        output = [output]
-        print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
-        #print(output)
+        if "Population" in attribute_list:
+            print(f"{output:,} people")
+        elif "Area" in attribute_list:
+            print(f"{output:,} km\u00b2")
+        elif "Coastline" in attribute_list:
+            print(f"{output:,} coast/area ratio")
+        elif "GDP" in attribute_list:
+            print(f"${output:,}")
+        else:
+            print(output.capitalize())
