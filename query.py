@@ -332,9 +332,9 @@ while True:
             value_list.append(item)
     # add detail bool val to pass to doQuery
     if parsed_query[-1] == "detail":
-        detailBool = True
+        detail_bool = True
     else:
-        detailBool = False
+        detail_bool = False
 
     # keep track of whether query is invalid to fully break out of loop
     invalidQuery = False
@@ -394,18 +394,18 @@ while True:
         else:
             qType = "comparison"
         # will return list of 
-        output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
+        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
     # set query type and call doQuery function from firebase module
     elif "of" in operator_list:
         qType = "country_attribute"
-        output = do_query(qType, attribute_list, operator_list, value_list, detailBool)
+        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     else:
-        output = "doQuery not called"
+        output = "do_query not called"
 
     #print output in a table when detail is true.
-    if detailBool:
+    if detail_bool:
         if isinstance(output, dict):
             output = [output]
             print(tabulate(output, headers="keys", tablefmt="fancy_grid"))
