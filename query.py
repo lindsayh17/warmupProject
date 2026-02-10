@@ -343,6 +343,26 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
     return "did not match to any in doQuery"
 
 ########## PARSER COMPONENT ##########
+print(" ______________________________________________________")
+print("| Welcome to the Countries of the World Query Program! |")
+print("|   Please enter a query, or type 'help' for help.     |")
+print("| _____________________________________________________|")
+print("                       ___,")
+print("                  _.-'` __|__")
+print("                .'  ,-:` \\;',`'-,")
+print("               /  .'-;_,;  ':-;_,' .")
+print("              /  /;   '/    ,  _`.-\\")
+print("             |  | '`. (`     /` ` \\`|")
+print("             |  |:.  `\\`-.   \\_   / |")
+print("             |  |     (   `,  .`\\ ;'|")
+print("              \\  \\     | .'     `-'/")
+print("               \\  `.   ;/        .'")
+print("                '._ `'-._____.-'`")
+print("                   `-.____|")
+print("                     _____|_____")
+print("                   /___________\\")
+#credit to https://asciiart.website/cat.php?category_id=339 for ascii art ;)
+
 while True:
     detail_bool = False
     user_query = input("!? ")
