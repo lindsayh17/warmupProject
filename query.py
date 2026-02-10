@@ -64,8 +64,8 @@ compoundQuery = defaultQuery + compoundOperator + defaultQuery
 # Parses the pattern with longest match
 parseQuery = (countryDetailQuery ^ defaultQuery ^ compoundQuery) + pp.StringEnd()
 
-# helper functions for error handling
 def country_exists(country_name):
+    # helper functions to check if country exists in firebase
     try:
         caps_country = country_name.title()
     except AttributeError:
@@ -81,15 +81,15 @@ def country_exists(country_name):
     else:
         return False
 
-# helper function to convert region input to caps for firebase query
 def region_checker(region_attribute, region_input):
+    # helper function to convert region input to caps for firebase query
     if region_attribute.lower() == "region":
         return region_input.upper()
     else:
         return region_input
 
-# helper function to check if value is valid for the attribute and operator given in user query
 def valid_value(attr, op, val):
+    # helper function to check if value is valid for the attribute and operator given in user query
     if op == "of":
         if not country_exists(val):
             print(f"Invalid Query - {val} is not a valid country")
@@ -130,8 +130,8 @@ def valid_value(attr, op, val):
 
     return True
 
-# for help command, rules of the query language
 def help_func():
+    # for help command, rules of the query language
     print("! 'exit' to leave program")
     print("! 'regions' to see list of regions")
     print("!  Query Syntax")
@@ -141,29 +141,20 @@ def help_func():
     print("!    Add 'detail' to end of query to get all values of countries")
     print("!    Example: region of \"East Timor\" detail")
 
-# print out regions formatted
 def regions():
+    # print out regions formatted
     for region in region_ref:
         print(region.title())
 
-'''
-Takes in an attribute string and a country string as variables. 
-Accesses firebase to find the info of the attribute according to the country. 
-Returns the information requested.
-
-Example query: getInfo(“population”,  “Western Sahara”)
-              return: 273008
-
-'''
-# for queries of the form 'attribute' of 'country', ex.' GDP of "china" ' or ' region of "france" '
 def get_info(attribute_input, country_name):
     """
     Gets the value of an attribute for a specific country.
     :param attribute_input: region, population, area, gdp, coastline
     :param country_name
     :return: string containing that countries attribute
+    Example query: getInfo(“population”,  “Western Sahara”)
+            return: 273008
     """
-
     caps_country = country_name.title()
 
     doc_ref = db.collection("countries").document(caps_country)
@@ -178,24 +169,18 @@ def get_info(attribute_input, country_name):
     else:
         print("No such document.")
 
-
-'''
-Takes in an attribute string, a comparison operator string, and a number or string.
-Access firebase does a comparison operator to find what the user requests. 
-Returns what is found in firebase.
-
-Example query: getCompare(“gdp”, “==”, 500)
-              return: East Timor, Sierra Leone, Somalia
-
-'''
 def get_compare(attribute_input, operator_input, value_input):
     """
-    Uses the comparison operator to query firebase based on the input
+    Takes in an attribute string, a comparison operator string, and a number or string.
+    Access firebase does a comparison operator to find what the user requests. 
+    Returns what is found in firebase.
 
     :param attribute_input:
     :param operator_input: <, >, ==, etc... used to compare all of the values in firebase to a specific input
     :param value_input: limiting factor for values returned
     :return: list of countries
+    Example query: getCompare(“gdp”, “==”, 500)
+              return: East Timor, Sierra Leone, Somalia
     """
 
     # convert any region to all caps
@@ -215,17 +200,12 @@ def get_compare(attribute_input, operator_input, value_input):
 
     return countries
 
-
-'''
-Exact same functionality as "getInfo", but returns a dictionary containing all attributes
-'''
 def get_detailed_info(country_name):
     """
     Gets all the information for a specific country. An attribute may be supplied, but will not change results.
     :param country_name:
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
-
     caps_country = country_name.title()
 
     # get country data
@@ -240,9 +220,6 @@ def get_detailed_info(country_name):
     else:
         print("No such document.")
 
-'''
-Exact same functionality as "getCompare", but returns a dictionary containing all attributes
-'''
 def get_detailed_compare(attribute_input, operator_input, value_input):
     """
     Gets all information for all countries with attributes of a certain value
@@ -270,14 +247,11 @@ def get_detailed_compare(attribute_input, operator_input, value_input):
 
     return country_info
 
-'''
-Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
-'''
-def do_query(q_type, attribute_input, operator_input, value_input, detail_input: bool):
-    # debugging
 
-    #print("*dQ*qType: \t\t\t" + q_type)
-    #
+def do_query(q_type, attribute_input, operator_input, value_input, detail_input: bool):
+    """
+    Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
+    """
     # convert string qType to enum, will fail if string is not one of enum vals
     user_query_type = QueryType(q_type)
     # debugging
