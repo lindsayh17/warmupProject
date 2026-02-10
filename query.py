@@ -457,8 +457,8 @@ while True:
                 attribute_list.append(flat_results[0])
                 attribute_list.append(flat_results[4])
                 # operator validation
-                if flat_results[1] not in operators or flat_results[5] not in operators:
-                    print("Invalid Query - attributes must be followed by an operator.")
+                if flat_results[1] not in operators or flat_results[5] not in ["==", "<", ">", "<=", ">="]:
+                    print("Invalid Query - attributes must be followed by an operator. The of operator cannot be used in compound queries.")
                     invalidQuery = True
                 else:
                     operator_list.append(flat_results[1])
