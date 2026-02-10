@@ -228,7 +228,7 @@ def get_detailed_compare(attribute_input, operator_input, value_input):
 
 def do_query(q_type, attribute_input, operator_input, value_input, detail_input: bool):
     """
-    Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the doQuery function. The doQuery function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
+    Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the do_query function. The do_query function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
     """
     # convert string qType to enum, will fail if string is not one of enum vals
     user_query_type = QueryType(q_type)
@@ -293,7 +293,7 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
                         query1.append(country_name)
                 return query1
 
-    return "did not match to any in doQuery"
+    return "did not match to any in do_query"
 
 ########## PARSER COMPONENT ##########
 print(" ______________________________________________________")
@@ -440,7 +440,7 @@ while True:
     print(f"*P*value list processed: \t {value_list}")
     #'''
 
-    # handle type of query for doQuery function
+    # handle type of query for do_query function
     if "of" not in operator_list:
         if "and" in flat_results:
             qType = "and"
@@ -452,12 +452,12 @@ while True:
         output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
-    # set query type and call doQuery function from firebase module
+    # set query type and call do_query function from firebase module
     elif "of" in operator_list:
         qType = "country_attribute"
         output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     else:
-        output = "doQuery not called"
+        output = "do_query not called"
 
     #print output in a table when detail is true.
     if not output:
