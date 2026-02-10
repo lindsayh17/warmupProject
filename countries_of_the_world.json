@@ -112,7 +112,7 @@
    "Coastline": 0
  },
  {
-   "Country": "Bahamas, The ",
+   "Country": "The Bahamas ",
    "Region": "LATIN AMER. & CARIB",
    "Population": 303770,
    "Area": 13940,
@@ -360,7 +360,7 @@
    "Coastline": 15.67
  },
  {
-   "Country": "Congo, Dem. Rep. ",
+   "Country": "Dem. Rep. Congo ",
    "Region": "SUB-SAHARAN AFRICA",
    "Population": 62660551,
    "Area": 2345410,
@@ -368,7 +368,7 @@
    "Coastline": 0
  },
  {
-   "Country": "Congo, Repub. of the ",
+   "Country": "Repub. of the Congo",
    "Region": "SUB-SAHARAN AFRICA",
    "Population": 3702314,
    "Area": 342000,
@@ -584,7 +584,7 @@
    "Coastline": 0.33
  },
  {
-   "Country": "Gambia, The ",
+   "Country": "The Gambia ",
    "Region": "SUB-SAHARAN AFRICA",
    "Population": 1641564,
    "Area": 11300,
@@ -1088,7 +1088,7 @@
    "Coastline": 0.47
  },
  {
-   "Country": "Micronesia, Fed. St. ",
+   "Country": "Fed. St. Micronesia ",
    "Region": "OCEANIA",
    "Population": 108004,
    "Area": 702,
