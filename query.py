@@ -272,12 +272,13 @@ Parser passes enum query type and all other necessary data like attribute, opera
 '''
 def do_query(q_type, attribute_input, operator_input, value_input, detail_input: bool):
     # debugging
-    print("*dQ*qType: \t\t\t" + q_type)
+
+    #print("*dQ*qType: \t\t\t" + q_type)
     #
     # convert string qType to enum, will fail if string is not one of enum vals
     user_query_type = QueryType(q_type)
     # debugging
-    print("*dQ*user_query_type: \t\t" + str(user_query_type))
+    #print("*dQ*user_query_type: \t\t" + str(user_query_type))
     # if given just a country as value then return details of it
     if not attribute_input and not operator_input and country_exists(value_input[0]):
         return get_detailed_info(value_input[0])
@@ -481,12 +482,12 @@ while True:
         continue
 
     # debugging
-
+    '''
     print(f"*P*Parsed List: \t\t {parsed_query}")
     print(f"*P*attribute list proccessed: \t {attribute_list}")
     print(f"*P*operator list processed: \t {operator_list}")
     print(f"*P*value list processed: \t {value_list}")
-    #
+    #'''
 
     # handle type of query for doQuery function
     if "of" not in operator_list:
