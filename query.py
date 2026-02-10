@@ -147,21 +147,25 @@ Example query: getInfo(“population”,  “Western Sahara”)
 
 '''
 
-def get_info(attribute_input, country):
+def get_info(attribute_input, country_name):
     """
     Gets the value of an attribute for a specific country.
     :param attribute_input: region, population, area, gdp, coastline
-    :param country
+    :param country_name
     :return: string containing that countries attribute
     """
 
-    caps_country = country.title()
+    caps_country = country_name.title()
 
     doc_ref = db.collection("countries").document(caps_country)
 
     doc = doc_ref.get()
     if doc.exists:
-        return doc.to_dict()[attribute_input]
+        # check to see if attribute exists
+        try:
+            return doc.to_dict()[attribute_input]
+        except KeyError:
+            return "None"
     else:
         print("No such document.")
 
