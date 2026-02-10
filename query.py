@@ -49,6 +49,7 @@ value = (
     pp.pyparsing_common.integer |
     pp.Word(pp.alphanums + "-_") | pp.pyparsing_common.real
 )
+#sets detail as optinal keyword
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
@@ -62,6 +63,7 @@ compoundQuery = defaultQuery + compoundOperator + defaultQuery
 # Parses the pattern with longest match
 parseQuery = (countryDetailQuery ^ defaultQuery ^ compoundQuery) + pp.StringEnd()
 
+# helper functions for error handling
 def country_exists(country_name):
     try:
         caps_country = country_name.title()
@@ -69,6 +71,7 @@ def country_exists(country_name):
         # return false if not a string - can't be a country
         return False
 
+    # convert for firebase query
     doc_ref = db.collection("countries").document(caps_country)
 
     doc = doc_ref.get()
@@ -77,12 +80,14 @@ def country_exists(country_name):
     else:
         return False
 
+# helper function to convert region input to caps for firebase query
 def region_checker(region_attribute, region_input):
     if region_attribute.lower() == "region":
         return region_input.upper()
     else:
         return region_input
 
+# helper function to check if value is valid for the attribute and operator given in user query
 def valid_value(attr, op, val):
     if op == "of":
         if not country_exists(val):
@@ -146,7 +151,7 @@ Example query: getInfo(“population”,  “Western Sahara”)
               return: 273008
 
 '''
-
+# for queries of the form 'attribute' of 'country', ex.' GDP of "china" ' or ' region of "france" '
 def get_info(attribute_input, country_name):
     """
     Gets the value of an attribute for a specific country.
@@ -222,6 +227,7 @@ def get_detailed_info(country_name):
     # get country data
     doc_ref = db.collection("countries").document(caps_country)
 
+    # check to see if country exists
     doc = doc_ref.get()
     country_info = {}
     if doc.exists:
@@ -336,7 +342,7 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
 
     return "did not match to any in doQuery"
 
-# PARSER COMPONENT
+########## PARSER COMPONENT ##########
 while True:
     detail_bool = False
     user_query = input("!? ")
