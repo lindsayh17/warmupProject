@@ -1,4 +1,4 @@
-# Team 8 Warmup Project
+# Countries of the World Query Language
 
 Created by Lindsay Hall, Callie Levitt, Michael Jakiewicz, and Nicolas Fay
 
