@@ -93,6 +93,7 @@ def valid_value(attr, op, val):
     if op == "of":
         if not country_exists(val):
             print(f"Invalid Query - {val} is not a valid country")
+            print(f"Please try again or type help for help. ")
             return False
     else:
         if attr == "Region":
@@ -104,6 +105,7 @@ def valid_value(attr, op, val):
                     return False
                 elif op != "==":
                     print(f"Invalid Query - {op} is not a valid operator for regions.")
+                    print(f"Please try again or type help for help. ")
                     return False
             except AttributeError:
                 print(f"Invalid Query - {val} is not a region.")
@@ -117,6 +119,7 @@ def valid_value(attr, op, val):
                 return False
             elif op != "==":
                 print(f"Invalid Query - {op} is not a valid operator for country.")
+                print(f"Please try again or type help for help. ")
                 return False
         else:
             if not isinstance(val, (int, float)):
