@@ -2,6 +2,7 @@
 # TODO: Better documentation for functions and inline comments
 # TODO: go through and fix cases
 # TODO: review Jason's project doc
+# TODO remove all debugging print statements before submission
 '''
 the second program is the user query program. The example below shows my query program. A user
 can run this program as often as they want, but the query program will only return results if the admin program has been run (i.e., if the data has been uploaded).
@@ -49,7 +50,7 @@ value = (
     pp.pyparsing_common.integer |
     pp.Word(pp.alphanums + "-_") | pp.pyparsing_common.real
 )
-#sets detail as optinal keyword
+#sets detail as optional keyword
 detail = pp.Optional(pp.CaselessKeyword("detail"))
 compoundOperator = pp.one_of("and or", caseless = True)
 # Commands
@@ -480,6 +481,7 @@ while True:
         continue
 
     # debugging
+
     print(f"*P*Parsed List: \t\t {parsed_query}")
     print(f"*P*attribute list proccessed: \t {attribute_list}")
     print(f"*P*operator list processed: \t {operator_list}")
