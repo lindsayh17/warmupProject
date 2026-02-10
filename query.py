@@ -292,8 +292,6 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
 
     # if detail keyword is used, get all details for every query
     elif detail_input:
-        # debugging
-        print("*dQ*detail = TRUE")
         # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
@@ -319,8 +317,6 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
                 return query1
     # no detail if keyword detail not included
     else:
-        # debugging
-        print("*dQ*detail = FALSE")
         # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
