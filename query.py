@@ -360,7 +360,7 @@ print("               \\  `.   ;/        .'")
 print("                '._ `'-._____.-'`")
 print("                   `-.____|")
 print("                     _____|_____")
-print("                   /___________\\")
+print("                    /___________\\")
 #credit to https://asciiart.website/cat.php?category_id=339 for ascii art ;)
 
 while True:
