@@ -90,13 +90,19 @@ def valid_value(attr, op, val):
             return False
     else:
         if attr == "Region":
-            if val not in region_ref:
+            try:
+                if val.upper() not in region_ref:
+                    print(f"Invalid Query - {val} is not a region.")
+                    regions()
+                    print("Please try again or type help for help.")
+                    return False
+                elif op != "==":
+                    print(f"Invalid Query - {op} is not a valid operator for regions.")
+                    return False
+            except AttributeError:
                 print(f"Invalid Query - {val} is not a region.")
                 regions()
                 print("Please try again or type help for help.")
-                return False
-            elif op != "==":
-                print(f"Invalid Query - {op} is not a valid operator for regions.")
                 return False
         elif attr == "Country":
             if not country_exists(val):
@@ -129,7 +135,7 @@ def help_func():
 # print out regions formatted
 def regions():
     for region in region_ref:
-        print(region)
+        print(region.title())
 
 '''
 Takes in an attribute string and a country string as variables. 
@@ -200,21 +206,23 @@ def get_compare(attribute_input, operator_input, value_input):
 '''
 Exact same functionality as "getInfo", but returns a dictionary containing all attributes
 '''
-def get_detailed_info(country):
+def get_detailed_info(country_name):
     """
     Gets all the information for a specific country. An attribute may be supplied, but will not change results.
-    :param country:
+    :param country_name:
     :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
 
-    caps_country = country.title()
+    caps_country = country_name.title()
 
     # get country data
     doc_ref = db.collection("countries").document(caps_country)
 
     doc = doc_ref.get()
+    country_info = {}
     if doc.exists:
-        return doc.to_dict()
+        country_info[doc.id] = doc.to_dict()
+        return country_info
     else:
         print("No such document.")
 
@@ -309,17 +317,17 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
                 query1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
                 query2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
                 result = []
-                for country in query1:
-                    if country in query2:
-                        result.append(country)
+                for country_name in query1:
+                    if country_name in query2:
+                        result.append(country_name)
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
                 query1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
                 query2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
-                for country in query2:
-                    if country not in query1:
-                        query1.append(country)
+                for country_name in query2:
+                    if country_name not in query1:
+                        query1.append(country_name)
                 return query1
 
     return "did not match to any in doQuery"
@@ -377,6 +385,7 @@ while True:
                 print(f"Invalid Query - {flat_results[1]} is not a valid keyword.")
                 invalidQuery = True
             else:
+                value_list.append(flat_results[0])
                 detail_bool = True
     elif len(flat_results) == 3 or len(flat_results) == 4:
         # attribute validation
@@ -412,7 +421,7 @@ while True:
                 invalidQuery = True
             else:
                 attribute_list.append(flat_results[0])
-                attribute_list.append(flat_results[3])
+                attribute_list.append(flat_results[4])
                 # operator validation
                 if flat_results[1] not in operators or flat_results[5] not in operators:
                     print("Invalid Query - attributes must be followed by an operator.")
@@ -469,7 +478,7 @@ while True:
     #print output in a table when detail is true.
     if not output:
         print("No results found.")
-    elif detail_bool:
+    elif detail_bool or isinstance(output, dict):
         rows = []
         for country, data in output.items():
             row = {"Country": country}
@@ -492,6 +501,6 @@ while True:
         elif isinstance(output, list):
             print(", ".join(output))
         elif isinstance(output, str):
-            print(output.capitalize())
+            print(output.title())
         else:
             print(output)
