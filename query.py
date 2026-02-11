@@ -1,17 +1,26 @@
-from connection_authentication import db
+"""
+query.py is a command line interface for users to query a countries database.
+The data is stored in firebase and the PyParsing module is used to parse inputs.
+"""
 from enum import Enum
 from google.cloud.firestore_v1.base_query import FieldFilter
 import pyparsing as pp
 from tabulate import tabulate #detail formatting, pip install tabulate to use!
+from connection_authentication import db
 
 class QueryType(Enum):
+    """
+    Types of query options
+    """
     COMPARE = "comparison"
     COUNTRY_ATTRIBUTE = "country_attribute"
     AND = "and"
     OR = "or"
 
 #list of regions for error handling
-region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE", "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA", "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"]
+region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE",
+              "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA",
+              "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"]
 
 #database reference
 countries_ref = db.collection("countries")
@@ -25,7 +34,7 @@ detail_bool = False
 attribute = pp.one_of(attribute_names, caseless = True)("attribute")
 operator = pp.one_of("== < > <= >= of")("operator")
 value = (
-    pp.QuotedString('"') | 
+    pp.QuotedString('"') |
     pp.pyparsing_common.real |
     pp.pyparsing_common.integer |
     pp.Word(pp.alphanums + "-_") | pp.pyparsing_common.real
@@ -42,13 +51,19 @@ region_command = pp.CaselessKeyword("regions")
 # Parser Patterns
 country_detail_query = pp.Group(value + detail)("country_detail_query")
 default_query = pp.Group(attribute + operator + value + detail)("default_query")
-compound_query = pp.Group(default_query("left") + compound_operator + default_query("right"))("compound_query")
+compound_query = pp.Group(default_query("left") + compound_operator
+                          + default_query("right"))("compound_query")
 
 # Parses the pattern with longest match
 parseQuery = (compound_query | default_query | country_detail_query) + pp.StringEnd()
 
 def country_exists(country_name):
-    # helper functions to check if country exists in firebase
+    """
+    helper functions to check if country exists in firebase
+    
+    :param country_name: string
+    :return: boolean, true if country exists, false otherwise
+    """
     try:
         caps_country = country_name.title()
     except AttributeError:
@@ -61,62 +76,68 @@ def country_exists(country_name):
     doc = doc_ref.get()
     if doc.exists:
         return True
-    else:
-        return False
+    return False
 
 def region_checker(region_attribute, region_input):
-    # helper function to convert region input to caps for firebase query
+    """
+    helper function to convert region input to caps for firebase query
+
+    :param region_attribute: attribute being search for
+    :param region_input: region name entered
+    :return: upper case region if the region attribute is used
+    """
     if region_attribute.lower() == "region":
         return region_input.upper()
-    else:
-        return region_input
+    return region_input
 
-def valid_value(attr, op, val):
+def valid_value(attr_input, op_input, val_input):
     """
     helper function to check if value is valid for the attribute and operator given in user query
 
-    :param attr: string attribute
-    :param op: string operator
-    :param val: string or number input
+    :param attr_input: string attribute
+    :param op_input: string operator
+    :param val_input: string or number input
     :return: boolean true if valid, false if not valid
     """
-    if op == "of":
+    if op_input == "of":
         # of must be followed by a country
-        if not country_exists(val):
-            print(f"Invalid Query - {val} is not a valid country. The 'of' operator must be followed by a country.")
-            print(f"Please try again or type help for help. ")
+        if not country_exists(val_input):
+            print(f"Invalid Query - {val_input} is not a valid country. The "
+                  f"'of' operator must be followed by a country.")
             return False
     else:
-        if attr == "Region":
+        if attr_input == "Region":
             # region needs to be followed by region input (since of operator already checked)
             try:
-                if val.upper() not in region_ref:
-                    print(f"Invalid Query - {val} is not a region.")
+                if val_input.upper() not in region_ref:
+                    print(f"Invalid Query - {val_input} is not a region.")
                     regions()
                     print("Please try again or type help for help.")
                     return False
-                elif op != "==":
-                    print(f"Invalid Query - {op} is not a valid operator for regions.")
-                    print(f"Please try again or type help for help. ")
+                # can only use == and 'of' for region
+                if op_input != "==":
+                    print(f"Invalid Query - {op_input} is not a valid operator for regions.")
+                    print("Please try again or type help for help. ")
                     return False
             except AttributeError:
                 # catch attribute error in case input is not a string
-                print(f"Invalid Query - {val} is not a region.")
+                print(f"Invalid Query - {val_input} is not a region.")
                 regions()
                 print("Please try again or type help for help.")
                 return False
-        elif attr == "Country":
-            if not country_exists(val):
-                print(f"Invalid Query - {val} is not a valid country.")
-                print(f"Please try again or type help for help. ")
+        elif attr_input == "Country":
+            if not country_exists(val_input):
+                print(f"Invalid Query - {val_input} is not a valid country.")
+                print("Please try again or type help for help. ")
                 return False
-            elif op != "==":
-                print(f"Invalid Query - {op} is not a valid operator for country.")
-                print(f"Please try again or type help for help. ")
+            # can only use == and 'of' for country
+            if op_input != "==":
+                print(f"Invalid Query - {op_input} is not a valid operator for country.")
+                print("Please try again or type help for help. ")
                 return False
         else:
-            if not isinstance(val, (int, float)):
-                print(f"Invalid Query - {val} cannot be read as a number.")
+            if not isinstance(val_input, (int, float)):
+                print(f"Invalid Query - {val_input} cannot be read as a number.")
                 print("Ensure that numbers are not in quotes")
                 print("Please try again or type help for help.")
                 return False
@@ -124,7 +145,10 @@ def valid_value(attr, op, val):
     return True
 
 def help_func():
-    # for help command, rules of the query language
+    """
+    for help command, rules of the query language
+    :return: no return
+    """
     print("! 'exit' to leave program")
     print("! 'regions' to see list of regions")
     print("!  Query Syntax")
@@ -135,7 +159,11 @@ def help_func():
     print("!    Example: region of \"East Timor\" detail")
 
 def regions():
-    # print out regions formatted
+    """
+    print out regions formatted
+
+    :return: none
+    """
     for region in region_ref:
         print(region.title())
 
@@ -169,7 +197,8 @@ def get_compare(attribute_input, operator_input, value_input):
     Returns what is found in firebase.
 
     :param attribute_input:
-    :param operator_input: <, >, ==, etc... used to compare all of the values in firebase to a specific input
+    :param operator_input: <, >, ==, etc... used to compare all of the
+        values in firebase to a specific input
     :param value_input: limiting factor for values returned
     :return: list of countries
     Example query: getCompare(“gdp”, “==”, 500)
@@ -195,9 +224,12 @@ def get_compare(attribute_input, operator_input, value_input):
 
 def get_detailed_info(country_name):
     """
-    Gets all the information for a specific country. An attribute may be supplied, but will not change results.
+    Gets all the information for a specific country. An attribute
+    may be supplied, but will not change results.
+
     :param country_name:
-    :return: dictionary with country information with format {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
+    :return: dictionary with country information with format
+        {attribute: value} (ex. {'GDP': 2200, 'Area': 239460})
     """
     caps_country = country_name.title()
 
@@ -210,8 +242,7 @@ def get_detailed_info(country_name):
     if doc.exists:
         country_info[doc.id] = doc.to_dict()
         return country_info
-    else:
-        print("No such document.")
+    print("No such document.")
 
 def get_detailed_compare(attribute_input, operator_input, value_input):
     """
@@ -219,8 +250,9 @@ def get_detailed_compare(attribute_input, operator_input, value_input):
     :param attribute_input: list of attributes
     :param operator_input: list of operators
     :param value_input: list of values
-    :return: nested dictionary, where outer keys are the countries and values for those keys are the list of
-        attributes and their values, as in the dict for getDetailedInfo
+    :return: nested dictionary, where outer keys are the countries and values
+        for those keys are the list of attributes and their values, as in the
+        dict for getDetailedInfo
     """
 
     # convert any region to all caps
@@ -241,12 +273,22 @@ def get_detailed_compare(attribute_input, operator_input, value_input):
     return country_info
 
 
-def do_query(q_type, attribute_input, operator_input, value_input, detail_input: bool):
+def do_query(query_type, attribute_input, operator_input, value_input, detail_input: bool):
     """
-    Parser passes enum query type and all other necessary data like attribute, operator, values, and optionally detail in a list to the do_query function. The do_query function has a boolean detail argument that is true if the keyword detail is present. The do query evaluates the data given and then calls the appropriate written wrapper functions which call the actual firebase gets. It will return the data and then the parser will format it as output to the user.
+    The do_query function has a boolean detail argument that is true if the keyword
+    detail is present. The do query evaluates the data given and then calls the
+    appropriate written wrapper functions which call the actual firebase gets.
+    It will return the data and then the parser will format it as output to the user.
+
+    :param query_type: enum QueryType
+    :param attribute_input: list of attributes
+    :param operator_input: list of operators
+    :param value_input: list of values
+    :param detail_input: true or false detail
+    :return: firebase wrapper outputs
     """
     # convert string qType to enum, will fail if string is not one of enum vals
-    user_query_type = QueryType(q_type)
+    user_query_type = QueryType(query_type)
     # debugging
     #print("*dQ*user_query_type: \t\t" + str(user_query_type))
     # if given just a country as value then return details of it
@@ -258,7 +300,7 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
         return get_detailed_info(value_input[0])
 
     # if detail keyword is used, get all details for every query
-    elif detail_input:
+    if detail_input:
         # check user query type according to enum
         match user_query_type:
             case QueryType.COMPARE:
@@ -267,21 +309,25 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
                 return get_detailed_info(value_input[0])
             case QueryType.AND:
                 # select query results that appear on both sides of and
-                query1 = get_detailed_compare(attribute_input[0], operator_input[0], value_input[0])
-                query2 = get_detailed_compare(attribute_input[1], operator_input[1], value_input[1])
+                query_1 = get_detailed_compare(attribute_input[0], operator_input[0],
+                                               value_input[0])
+                query_2 = get_detailed_compare(attribute_input[1], operator_input[1],
+                                               value_input[1])
                 result = {}
-                for countryName in query1.keys():
-                    if countryName in query2.keys():
-                        result[countryName] = query1.get(countryName)
+                for country_name in query_1:
+                    if country_name in query_2:
+                        result[country_name] = query_1.get(country_name)
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
-                query1 = get_detailed_compare(attribute_input[0], operator_input[0], value_input[0])
-                query2 = get_detailed_compare(attribute_input[1], operator_input[1], value_input[1])
-                for countryName in query2.keys():
-                    if countryName not in query1.keys():
-                        query1[countryName] = query2.get(countryName)
-                return query1
+                query_1 = get_detailed_compare(attribute_input[0], operator_input[0],
+                                               value_input[0])
+                query_2 = get_detailed_compare(attribute_input[1], operator_input[1],
+                                               value_input[1])
+                for country_name in query_2:
+                    if country_name not in query_1:
+                        query_1[country_name] = query_2.get(country_name)
+                return query_1
     # no detail if keyword detail not included
     else:
         # check user query type according to enum
@@ -292,21 +338,21 @@ def do_query(q_type, attribute_input, operator_input, value_input, detail_input:
                 return get_info(attribute_input[0], value_input[0])
             case QueryType.AND:
                 # select query results that appear on both sides of and
-                query1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
-                query2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
+                query_1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
+                query_2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
                 result = []
-                for country_name in query1:
-                    if country_name in query2:
+                for country_name in query_1:
+                    if country_name in query_2:
                         result.append(country_name)
                 return result
             case QueryType.OR:
                 # select all query results from both sides of or without duplicates
-                query1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
-                query2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
-                for country_name in query2:
-                    if country_name not in query1:
-                        query1.append(country_name)
-                return query1
+                query_1 = get_compare(attribute_input[0], operator_input[0], value_input[0])
+                query_2 = get_compare(attribute_input[1], operator_input[1], value_input[1])
+                for country_name in query_2:
+                    if country_name not in query_1:
+                        query_1.append(country_name)
+                return query_1
 
     return "did not match to any in do_query"
 
@@ -339,19 +385,18 @@ while True:
         help_func()
         continue
     # Check for Exit Command
-    elif user_query == exit_command:
+    if user_query == exit_command:
         print("exiting program!!!")
         break
-    elif user_query == region_command:
+    if user_query == region_command:
         regions()
         continue
-    # parse the user input 
-    else: 
-        try:
-            parsed_query = parseQuery.parse_string(user_query)
-        except pp.exceptions.ParseException:
-            print("Invalid Query - please try again or type help for a list of commands.")
-            continue
+    # parse the user input
+    try:
+        parsed_query = parseQuery.parse_string(user_query)
+    except pp.exceptions.ParseException:
+        print("Invalid Query - please try again or type help for a list of commands.")
+        continue
 
     # create lists of each element type
     # to make parsing compound queries easier for do_query function
@@ -361,22 +406,26 @@ while True:
     flat_results = parsed_query.asList()
 
     # new processing to help with error handling
-    invalidQuery = False
+    invalid_query = False
 
     # check country only query
     if "country_detail_query" in parsed_query:
         country = parsed_query.country_detail_query[0]
 
+        # make sure the country exists
         if not country_exists(country):
             print("Invalid Query - only countries can be used in a single parameter query")
             print("Please try again or type help for a list of commands.")
-            invalidQuery = True
+            invalid_query = True
         else:
+            # valid query
             value_list.append(country)
             detail_bool = True
+    # check basic query
     elif "default_query" in parsed_query:
         q = parsed_query.default_query
 
+        # get parts of query and check validity
         attr = q.attribute
         op = q.operator
         val = q.value
@@ -385,32 +434,36 @@ while True:
         if attr not in attribute_names:
             print("Invalid Query - queries must start with an attribute.")
             print("Please try again or type help for a list of commands.")
-            invalidQuery = True
+            invalid_query = True
         elif op not in operators:
             print("Invalid Query - invalid operator")
             print("Please try again or type help for a list of commands.")
-            invalidQuery = True
+            invalid_query = True
         elif not valid_value(attr, op, val):
             print("Please try again or type help for a list of commands.")
-            invalidQuery = True
+            invalid_query = True
         else:
+            # query is valid
             attribute_list.append(attr)
             operator_list.append(op)
             value_list.append(val)
             if detail:
                 detail_bool = True
+    # check compound queries
     elif "compound_query" in parsed_query:
         q = parsed_query.compound_query
 
+        # split up into default queries
         left_side = q.left
         right_side = q.right
-        compound_op = q.compound_operator
+        compound_op = q.compound_operator # already checked
 
         # check detail
         right_detail = q.right.detail
         left_detail = q.left.detail
         detail_bool = right_detail or left_detail
 
+        # check each default query
         for default_query in (left_side, right_side):
             attr = default_query.attribute
             op = default_query.operator
@@ -419,43 +472,43 @@ while True:
             if attr not in attribute_names:
                 print("Invalid Query - queries must start with an attribute.")
                 print("Please try again or type help for a list of commands.")
-                invalidQuery = True
+                invalid_query = True
             elif op == "of":
                 print("Invalid Query - 'of' cannot be used in compound queries.")
                 print("Please try again or type help for a list of commands.")
+                invalid_query = True
             elif not valid_value(attr, op, val):
-                invalidQuery = True
+                invalid_query = True
             else:
+                # query is valid
                 attribute_list.append(attr)
                 operator_list.append(op)
                 value_list.append(val)
 
 
-    if invalidQuery:
+    if invalid_query:
         continue
 
     # debugging
-    '''
-    print(f"*P*Parsed List: \t\t {parsed_query}")
-    print(f"*P*attribute list proccessed: \t {attribute_list}")
-    print(f"*P*operator list processed: \t {operator_list}")
-    print(f"*P*value list processed: \t {value_list}")
-    #'''
+    # print(f"*P*Parsed List: \t\t {parsed_query}")
+    # print(f"*P*attribute list proccessed: \t {attribute_list}")
+    # print(f"*P*operator list processed: \t {operator_list}")
+    # print(f"*P*value list processed: \t {value_list}")
 
     # handle type of query for do_query function
     if "compound_query" in parsed_query:
-        qType = parsed_query.compound_query.compound_operator
-        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
+        q_type = parsed_query.compound_query.compound_operator
+        output = do_query(q_type, attribute_list, operator_list, value_list, detail_bool)
     elif "of" not in operator_list:
-        qType = "comparison"
-        # will return list of 
-        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
+        q_type = "comparison"
+        # will return list of
+        output = do_query(q_type, attribute_list, operator_list, value_list, detail_bool)
     # 'attribute' of 'country' always returns one value,
     # e.g. 'region of "china"' would output 'Asia'
     # set query type and call do_query function from firebase module
     elif "of" in operator_list:
-        qType = "country_attribute"
-        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
+        q_type = "country_attribute"
+        output = do_query(q_type, attribute_list, operator_list, value_list, detail_bool)
     else:
         output = "do_query not called"
 
@@ -463,6 +516,7 @@ while True:
     if not output:
         print("No results found.")
     elif detail_bool or isinstance(output, dict):
+        # detailed output - table
         rows = []
         for country, data in output.items():
             row = {"Country": country}
@@ -472,6 +526,7 @@ while True:
     else:
         # non-detailed output
         if isinstance(output, (int, float)):
+            # attributes with units for numeric values
             if "Population" in attribute_list:
                 print(f"{output:,} people")
             elif "Area" in attribute_list:
@@ -483,8 +538,10 @@ while True:
             else:
                 print(output)
         elif isinstance(output, list):
+            # list of countries
             print(", ".join(output))
         elif isinstance(output, str):
+            # string attributes - region
             print(output.title())
         else:
             print(output)
