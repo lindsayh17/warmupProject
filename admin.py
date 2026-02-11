@@ -6,7 +6,7 @@ argument: the name of the JSON file containing the data to load.
 '''
 import sys
 import json
-from connectionAuthentication import db
+from connection_authentication import db
 
 class Country:
     def __init__(self, country, region, area, population, gdp, coastline=None):

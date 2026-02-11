@@ -1,4 +1,4 @@
-from connectionAuthentication import db
+from connection_authentication import db
 from enum import Enum
 from google.cloud.firestore_v1.base_query import FieldFilter
 import pyparsing as pp
