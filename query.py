@@ -12,35 +12,40 @@ class QueryType(Enum):
 
 #list of regions for error handling
 region_ref = ["ASIA (EX. NEAR EAST)", "BALTICS", "C.W. OF IND. STATES", "EASTERN EUROPE", "LATIN AMER. & CARIB", "NEAR EAST", "NORTHERN AFRICA", "NORTHERN AMERICA", "OCEANIA", "SUB-SAHARAN AFRICA", "WESTERN EUROPE"]
+
 #database reference
 countries_ref = db.collection("countries")
 
-# Variables
+# Query allowed inputs
 attribute_names = ["Country", "Region", "Population", "GDP", "Area", "Coastline"]
 operators = ["==", "<", ">", "<=", ">=", "of"]
 detail_bool = False
+
 # Query pattern pieces
-attribute = pp.one_of(attribute_names, caseless = True)
-operator = pp.one_of("== < > <= >= of")
+attribute = pp.one_of(attribute_names, caseless = True)("attribute")
+operator = pp.one_of("== < > <= >= of")("operator")
 value = (
     pp.QuotedString('"') | 
     pp.pyparsing_common.real |
     pp.pyparsing_common.integer |
     pp.Word(pp.alphanums + "-_") | pp.pyparsing_common.real
-)
+)("value")
 #sets detail as optional keyword
-detail = pp.Optional(pp.CaselessKeyword("detail"))
-compoundOperator = pp.one_of("and or", caseless = True)
+detail = pp.Optional(pp.CaselessKeyword("detail"))("detail")
+compound_operator = pp.one_of("and or", caseless = True)("compound_operator")
+
 # Commands
-helpCommand = pp.CaselessKeyword("help")
-exitCommand = pp.CaselessKeyword("exit")
-regionCommand = pp.CaselessKeyword("regions")
+help_command = pp.CaselessKeyword("help")
+exit_command = pp.CaselessKeyword("exit")
+region_command = pp.CaselessKeyword("regions")
+
 # Parser Patterns
-countryDetailQuery = value + detail
-defaultQuery = attribute + operator + value + detail
-compoundQuery = defaultQuery + compoundOperator + defaultQuery
+country_detail_query = pp.Group(value + detail)("country_detail_query")
+default_query = pp.Group(attribute + operator + value + detail)("default_query")
+compound_query = pp.Group(default_query("left") + compound_operator + default_query("right"))("compound_query")
+
 # Parses the pattern with longest match
-parseQuery = (countryDetailQuery ^ defaultQuery ^ compoundQuery) + pp.StringEnd()
+parseQuery = (compound_query | default_query | country_detail_query) + pp.StringEnd()
 
 def country_exists(country_name):
     # helper functions to check if country exists in firebase
@@ -67,14 +72,23 @@ def region_checker(region_attribute, region_input):
         return region_input
 
 def valid_value(attr, op, val):
-    # helper function to check if value is valid for the attribute and operator given in user query
+    """
+    helper function to check if value is valid for the attribute and operator given in user query
+
+    :param attr: string attribute
+    :param op: string operator
+    :param val: string or number input
+    :return: boolean true if valid, false if not valid
+    """
     if op == "of":
+        # of must be followed by a country
         if not country_exists(val):
-            print(f"Invalid Query - {val} is not a valid country")
+            print(f"Invalid Query - {val} is not a valid country. The 'of' operator must be followed by a country.")
             print(f"Please try again or type help for help. ")
             return False
     else:
         if attr == "Region":
+            # region needs to be followed by region input (since of operator already checked)
             try:
                 if val.upper() not in region_ref:
                     print(f"Invalid Query - {val} is not a region.")
@@ -86,6 +100,7 @@ def valid_value(attr, op, val):
                     print(f"Please try again or type help for help. ")
                     return False
             except AttributeError:
+                # catch attribute error in case input is not a string
                 print(f"Invalid Query - {val} is not a region.")
                 regions()
                 print("Please try again or type help for help.")
@@ -201,9 +216,9 @@ def get_detailed_info(country_name):
 def get_detailed_compare(attribute_input, operator_input, value_input):
     """
     Gets all information for all countries with attributes of a certain value
-    :param attribute_input:
-    :param operator_input:
-    :param value_input:
+    :param attribute_input: list of attributes
+    :param operator_input: list of operators
+    :param value_input: list of values
     :return: nested dictionary, where outer keys are the countries and values for those keys are the list of
         attributes and their values, as in the dict for getDetailedInfo
     """
@@ -320,14 +335,14 @@ while True:
     detail_bool = False
     user_query = input("!? ")
     # Check for Help Command
-    if user_query == helpCommand:
+    if user_query == help_command:
         help_func()
         continue
     # Check for Exit Command
-    elif user_query == exitCommand:
+    elif user_query == exit_command:
         print("exiting program!!!")
         break
-    elif user_query == regionCommand:
+    elif user_query == region_command:
         regions()
         continue
     # parse the user input 
@@ -348,86 +363,73 @@ while True:
     # new processing to help with error handling
     invalidQuery = False
 
-    # check query length
+    # check country only query
+    if "country_detail_query" in parsed_query:
+        country = parsed_query.country_detail_query[0]
 
-    # countryName query
-    if len(flat_results) == 1:
-        if not country_exists(flat_results[0]):
-            print("Invalid Query - only countries may be used as single parameter queries.")
+        if not country_exists(country):
+            print("Invalid Query - only countries can be used in a single parameter query")
+            print("Please try again or type help for a list of commands.")
             invalidQuery = True
         else:
-            value_list.append(flat_results[0])
+            value_list.append(country)
             detail_bool = True
-    # countryName detail query
-    elif len(flat_results) == 2:
-        if not country_exists(flat_results[0]):
-            print(f"Invalid Query - {flat_results[0]} is not a valid country.")
-            invalidQuery = True
-        else:
-            if flat_results[1] != "detail":
-                print(f"Invalid Query - {flat_results[1]} is not a valid keyword.")
-                invalidQuery = True
-            else:
-                value_list.append(flat_results[0])
-                detail_bool = True
-    elif len(flat_results) == 3 or len(flat_results) == 4:
-        # attribute validation
-        if flat_results[0] not in attribute_names:
+    elif "default_query" in parsed_query:
+        q = parsed_query.default_query
+
+        attr = q.attribute
+        op = q.operator
+        val = q.value
+        detail = q.detail
+
+        if attr not in attribute_names:
             print("Invalid Query - queries must start with an attribute.")
+            print("Please try again or type help for a list of commands.")
+            invalidQuery = True
+        elif op not in operators:
+            print("Invalid Query - invalid operator")
+            print("Please try again or type help for a list of commands.")
+            invalidQuery = True
+        elif not valid_value(attr, op, val):
+            print("Please try again or type help for a list of commands.")
             invalidQuery = True
         else:
-            attribute_list.append(flat_results[0])
-            # operator validation
-            if flat_results[1] not in operators:
-                print("Invalid Query - attributes must be followed by an operator.")
-                invalidQuery = True
-            else:
-                operator_list.append(flat_results[1])
-                # value validation
-                if not valid_value(flat_results[0], flat_results[1], flat_results[2]):
-                    invalidQuery = True
-                else:
-                    value_list.append(flat_results[2])
-                    if len(flat_results) == 4 and flat_results[-1] != "detail":
-                        print(f"Invalid Query - {flat_results[-1]} is not a valid keyword.")
-                        invalidQuery = True
-                    elif len(flat_results) == 4 and flat_results[-1] == "detail":
-                        detail_bool = True
-    elif len(flat_results) == 7 or len(flat_results) == 8:
-        # check for compound
-        if flat_results[3] != "and" and flat_results[3] != "or":
-            print("Invalid Query - compound queries must be two three-parameter queries join by 'and' or 'or'.")
-            invalidQuery = True
-        else:
-            if flat_results[0] not in attribute_names and flat_results[3] not in attribute_names:
+            attribute_list.append(attr)
+            operator_list.append(op)
+            value_list.append(val)
+            if detail:
+                detail_bool = True
+    elif "compound_query" in parsed_query:
+        q = parsed_query.compound_query
+
+        left_side = q.left
+        right_side = q.right
+        compound_op = q.compound_operator
+
+        # check detail
+        right_detail = q.right.detail
+        left_detail = q.left.detail
+        detail_bool = right_detail or left_detail
+
+        for default_query in (left_side, right_side):
+            attr = default_query.attribute
+            op = default_query.operator
+            val = default_query.value
+
+            if attr not in attribute_names:
                 print("Invalid Query - queries must start with an attribute.")
+                print("Please try again or type help for a list of commands.")
+                invalidQuery = True
+            elif op == "of":
+                print("Invalid Query - 'of' cannot be used in compound queries.")
+                print("Please try again or type help for a list of commands.")
+            elif not valid_value(attr, op, val):
                 invalidQuery = True
             else:
-                attribute_list.append(flat_results[0])
-                attribute_list.append(flat_results[4])
-                # operator validation
-                if flat_results[1] not in operators or flat_results[5] not in ["==", "<", ">", "<=", ">="]:
-                    print("Invalid Query - attributes must be followed by an operator. The of operator cannot be used in compound queries.")
-                    invalidQuery = True
-                else:
-                    operator_list.append(flat_results[1])
-                    operator_list.append(flat_results[5])
-                    # value validation
-                    if not valid_value(flat_results[0], flat_results[1], flat_results[2]):
-                        invalidQuery = True
-                    elif not valid_value(flat_results[4], flat_results[5], flat_results[6]):
-                        invalidQuery = True
-                    else:
-                        value_list.append(flat_results[2])
-                        value_list.append(flat_results[6])
-                        if len(flat_results) == 8 and flat_results[-1] != "detail":
-                            print(f"Invalid Query - {flat_results[-1]} is not a valid keyword.")
-                            invalidQuery = True
-                        elif len(flat_results) == 8 and flat_results[-1] == "detail":
-                            detail_bool = True
-    else:
-        print("Invalid Query - wrong number of arguments")
-        invalidQuery = True
+                attribute_list.append(attr)
+                operator_list.append(op)
+                value_list.append(val)
+
 
     if invalidQuery:
         continue
@@ -441,13 +443,11 @@ while True:
     #'''
 
     # handle type of query for do_query function
-    if "of" not in operator_list:
-        if "and" in flat_results:
-            qType = "and"
-        elif "or" in flat_results:
-            qType = "or"
-        else:
-            qType = "comparison"
+    if "compound_query" in parsed_query:
+        qType = parsed_query.compound_query.compound_operator
+        output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
+    elif "of" not in operator_list:
+        qType = "comparison"
         # will return list of 
         output = do_query(qType, attribute_list, operator_list, value_list, detail_bool)
     # 'attribute' of 'country' always returns one value,
